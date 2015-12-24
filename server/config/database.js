@@ -2,7 +2,7 @@ var mongoose = require('mongoose');
 var db       = mongoose.connection;
 var env      = require('./environment');
 
-// require ('../models/user');
+require ('../models/user');
 require('dotenv').load();
 
 // production version

@@ -49,7 +49,7 @@ app.use('/arcane', function(req, res, next) {
 // Load the models
   app.models = require('./server/models/index');
 
-// require('./server/routes/api')(app);
+require('./server/routes/api')(app);
 
 // error handlers
 

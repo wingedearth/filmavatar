@@ -1,16 +1,20 @@
 // Set up modules
-var express        = require('express');
-var path           = require('path');
-var favicon        = require('serve-favicon');
-var logger         = require('morgan');
-var cookieParser   = require('cookie-parser');
-var bodyParser     = require('body-parser');
-var methodOverride = require('method-override');
-var debug          = require('debug')('app:http');
-var _              = require('lodash');
-var mongoose       = require('./server/config/database');
-                     require('dotenv').load(); // load local enviro vars
-var app            = express(); // create the express application
+  var express        = require('express');
+  var path           = require('path');
+  var favicon        = require('serve-favicon');
+  var logger         = require('morgan');
+  var cookieParser   = require('cookie-parser');
+  var bodyParser     = require('body-parser');
+  var methodOverride = require('method-override');
+  var debug          = require('debug')('app:http');
+  var _              = require('lodash');
+
+// connect to database and environmental variables
+  var mongoose       = require('./server/config/database');
+                       require('dotenv').load();
+
+// create the express application
+  var app            = express();
 
 // define CORS headers
   var allowCrossDomain = function(req, res, next) {
@@ -27,7 +31,11 @@ var app            = express(); // create the express application
   app.use(bodyParser.urlencoded({extended: true}));
   app.use(bodyParser.json());
   app.use(cookieParser());
+
+  // Allows use of HTTP verbs (e.g. PUT, DELETE) where client doesn't support it.
   app.use(methodOverride('X-HTTP-Method-Override'));
+
+  // make 'public' a root folder
   app.use(express.static(path.join(__dirname, 'public')));
 
 

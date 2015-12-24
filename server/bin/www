@@ -4,7 +4,7 @@
  * Module dependencies.
  */
 
-var app = require('../server');
+var app = require('../../server');
 var debug = require('debug')('server:server');
 var http = require('http');
 
@@ -25,6 +25,7 @@ var server = http.createServer(app);
  * Listen on provided port, on all network interfaces.
  */
 
+console.log("A robot is watching port 3000. Beep beep boop beep boop.")
 server.listen(port);
 server.on('error', onError);
 server.on('listening', onListening);

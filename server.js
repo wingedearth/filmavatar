@@ -46,6 +46,9 @@ app.use('/arcane', function(req, res, next) {
   // make 'public' a root folder
   app.use(express.static(path.join(__dirname, 'client')));
 
+// Load the models
+  app.models = require('./server/models/index');
+
 // require('./server/routes/api')(app);
 
 // error handlers

@@ -24,6 +24,13 @@
     next();
   }
 
+//Test content routes
+app.use('/arcane', function(req, res, next) {
+  res.send('"There is no religion higher than Truth." - Helena P. Blavatsky');
+  next();
+});
+
+
 // Set up middleware
 
   app.use(favicon(path.join(__dirname, 'client', 'favicon.ico')));
@@ -38,7 +45,6 @@
 
   // make 'public' a root folder
   app.use(express.static(path.join(__dirname, 'client')));
-
 
 // require('./server/routes/api')(app);
 

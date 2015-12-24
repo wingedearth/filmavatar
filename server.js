@@ -25,7 +25,7 @@
 
 // Set up middleware
 
-  app.use(favicon(path.join(__dirname, 'public', 'favicon.ico')));
+  app.use(favicon(path.join(__dirname, 'client', 'favicon.ico')));
   app.use(logger('dev'));
   app.use(allowCrossDomain);
   app.use(bodyParser.urlencoded({extended: true}));
@@ -36,7 +36,7 @@
   app.use(methodOverride('X-HTTP-Method-Override'));
 
   // make 'public' a root folder
-  app.use(express.static(path.join(__dirname, 'public')));
+  app.use(express.static(path.join(__dirname, 'client')));
 
 
 // require('./server/routes/api')(app);

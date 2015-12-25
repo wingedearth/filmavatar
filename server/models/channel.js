@@ -2,14 +2,14 @@ var mongoose = require('mongoose');
 var videoSchema = require('./video');
 
 var channelSchema = new mongoose.Schema({
-  name: String,
-  createdBy: {userId: String, userEmail: String},
-  curatedBy: [{userId: String, userEmail: String}],
+  name: { type: String, require: true, unique: true },
+  createdBy: { userEmail: String },
+  curatedBy: [{ userEmail: String }],
   videos: [videoSchema],
-  isPrivate: Boolean,
+  isPrivate: {type: Boolean, default: false},
   accessList: [],
   description: String,
-  votes: [{userId: String, vote: Number}],
+  votes: [{userEmail: String, vote: Number}],
   dateAdded: { type: Date, default: Date.now }
 });
 

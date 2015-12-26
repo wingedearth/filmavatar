@@ -7,7 +7,7 @@ var request         = require('request');
 require('dotenv').load();
 
 // Set up controllers
-  // var UsersCtrl       = require('../controllers/users');
+  var UsersCtrl       = require('../controllers/users');
   // var ChannelsCtrl    = require('../controllers/channels');
   // var VideosCtrl      = require('../controllers/videos');
   var InfoCtrl        = require('../controllers/info');
@@ -22,7 +22,10 @@ module.exports = function(app) {
   app.use('/api', router);
 
   // Search OMDB by video's title
-  app.post('/info', InfoCtrl.searchTitle);
+  router.post('/info', InfoCtrl.searchTitle);
 
+  // User routes
+  router.post('/login', UsersCtrl.loginUser)
+  router.post('/users', UsersCtrl.createUser);
 
 };

@@ -119,7 +119,18 @@ function addMyChannel(req, res) {
 }
 
 
+/*************************************
+*    Delete a user
+**************************************/
+function deleteUser(req, res) {
+  User.remove({
+        _id: req.params.id
+      }, function(err, user) {
+        if (err) res.send(err);
 
+        res.json({ message: 'Successfully deleted' });
+  });
+}
 
 
 /********************
@@ -226,6 +237,7 @@ module.exports = {
   getUsers:       getUsers,
   tokenVerify:    tokenVerify,
   loadAuthUser:   loadAuthUser,
-  updateUser:     updateUser
+  updateUser:     updateUser,
+  deleteUser:     deleteUser
 }
 

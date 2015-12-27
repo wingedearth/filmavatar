@@ -16,7 +16,8 @@ var userSchema = new mongoose.Schema({
   zip:   {type: String, default: '91101'},
   myChannels: [{channelId: String, isCurator: Boolean, isCreator: Boolean}],
   isAdmin: { type: Boolean, default: false },
-  created: { type: Date, default: Date.now }
+  created: { type: Date, default: Date.now },
+  password: {type: String, required: true, bcrypt: true}
 });
 
 userSchema.plugin(require('mongoose-bcrypt'));

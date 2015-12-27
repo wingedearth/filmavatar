@@ -35,4 +35,6 @@ module.exports = function(app) {
   router.get('/users/:id',  UsersCtrl.tokenVerify,
                             UsersCtrl.loadAuthUser,
                             UsersCtrl.getUser);
+  router.put('/users/:id',  UsersCtrl.tokenVerify,
+                            UsersCtrl.updateUser);
 };

@@ -82,6 +82,46 @@ function createUser(req, res) {
   });
 }
 
+/**********************
+*    Update User
+**********************/
+
+function updateUser(req, res) {
+  User.findById(req.params.id, function(err, user) {
+
+    if (err) res.send(err);
+
+    // set the new user information if it exists in the request
+    if (req.body.email)          user.email        = req.body.email;
+    if (req.body.handle)         user.handle       = req.body.handle;
+    if (req.body.password)       user.password     = req.body.password;
+    if (req.body.city)           user.city         = req.body.city;
+    if (req.body.state)          user.state        = req.body.state;
+    if (req.body.zip)            user.zip          = req.body.zip;
+
+    // save the user
+    user.save(function(err) {
+      if (err) res.send(err);
+      // return a message
+      res.json({ message: 'User updated!' });
+    });
+  });
+}
+
+/**********************
+*    Add myChannel
+**********************/
+
+function addMyChannel(req, res) {
+
+// if (req.body.myChannels)     user.myChannels.push(req.body.myChannels);
+
+}
+
+
+
+
+
 /********************
 * Login
 *********************/
@@ -143,7 +183,11 @@ var tokenVerify = function(req, res, next) {
   }
 };
 
-var loadAuthUser = function(req, res, next) { //load authenticated user
+/****************************
+*    Load Authenticated User
+*****************************/
+
+var loadAuthUser = function(req, res, next) {
   User.findOne({email: req.decoded.email}, function(err, user) {
     req.user = user;
     next();
@@ -181,6 +225,7 @@ module.exports = {
   createUser:     createUser,
   getUsers:       getUsers,
   tokenVerify:    tokenVerify,
-  loadAuthUser:   loadAuthUser
+  loadAuthUser:   loadAuthUser,
+  updateUser:     updateUser
 }
 

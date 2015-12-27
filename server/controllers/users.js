@@ -4,7 +4,6 @@ var bcrypt    = require('mongoose-bcrypt'),
     env       = require('../config/environment'),
     User      = require('../models/user'),
     Channel   = require('../models/channel');
-    // users     = User.find();
 
                 require('dotenv').load();
 var secretKey = process.env.SECRET_KEY;
@@ -19,6 +18,28 @@ function getUsers(req, res) {
 
         // return the users
         res.json(users);
+  });
+}
+
+/********************
+* Get a User
+*********************/
+
+function getUser(req, res) {
+  /* the /api/users/:id route includes an id parameter
+  for the /api/me route, set current user's id as the parameter */
+    if (!req.params.id) { req.params.id = req.user._id; }
+      console.log("req.params.id: ", req.params.id);
+  User.findById(req.params.id, function (err, user) {
+    if (err) res.send(err);
+
+    // AUTHORIZE!
+    if ((user.email === req.user.email) || req.user.isAdmin) {
+      res.json(user);
+    } else {
+      res.status(403)
+         .json({message: "You are not authorized to access this data."})
+    }
   });
 }
 
@@ -48,7 +69,7 @@ function createUser(req, res) {
 
     // return a message
     res.json({
-      message: "Welcome to Channel Pasadena!",
+      message: "Welcome to Film Avatar!",
       user: {
         _id:    user._id,
         email:  user.email,
@@ -59,32 +80,10 @@ function createUser(req, res) {
       }
     });
   });
-
-    // ***** This is the method offered in the mongoose-bcrypt docs: ***
-  // User.create({
-  //   email:    req.body.email,
-  //   handle:   req.body.handle,
-  //   city:     req.body.city,
-  //   state:    req.body.state,
-  //   zip:      req.body.zip,
-  //   password: req.body.password,
-  //   isAdmin:  true
-  // }, function(err, user) {
-  //   if (!err) {
-  //     // Verify password with callback
-  //     user.verifyPassword(req.body.password, function(err, valid) {
-  //      if (!err)
-  //       console.log(valid ? "ValidAsync" : "InvalidAsync"); //=>'ValidAsync'
-  //     });
-  //     // Verify password synchronously
-  //     var valid = user.verifyPasswordSync('bogusPassword');
-  //     console.log(valid ? "ValidSync" : "InvalidSync"); //=>'InvalidSync'
-  //   }
-  // });
 }
 
 /********************
-* LOGIN
+* Login
 *********************/
 
 function loginUser(req, res, next) {
@@ -104,23 +103,55 @@ function loginUser(req, res, next) {
   });
 }
 
+/****************************
+*    Verify that token!
+*****************************/
+var tokenVerify = function(req, res, next) {
+  console.log('Somebody just accessed the Film Avatar API!');
 
+  // check header for token
+  var token = req.headers['authorization'];
+  console.log("req.headers['authorization']: ", req.headers['authorization'])
 
-function getUser(req, res) {
-  var token = req.headers['x-auth'];
-  var user = jwt.decode(token, secretKey);
-  //TODO: pull user info from database
-  res.json(user);
+  // decode token
+  if (token) {
+    token = token.split(" ")[1];
+
+    // verifies secret and checks exp
+    jwt.verify(token, secretKey, function(err, decoded) {
+
+      if (err) {
+        res.status(403).json({
+          success: false,
+          message: 'Failed to authenticate token.'
+        });
+      } else {
+        req.decoded = decoded; // save to req for use in other routes
+        next();
+      }
+    });
+
+  } else {
+
+    // if there is no token
+    // return an HTTP response of 403 (access forbidden) and an error message
+    res.status(403).send({
+      success: false,
+      message: 'No token provided.'
+    });
+
+  }
+};
+
+var loadAuthUser = function(req, res, next) { //load authenticated user
+  User.findOne({email: req.decoded.email}, function(err, user) {
+    req.user = user;
+    next();
+  });
 }
 
 
-
-
 // helper functions
-
-  function findUser(email) {
-    return _.find(users, {email: email});
-  }
 
   function checkPassword(user, password, validpassword) {
     user.verifyPassword(password, function(err, validpassword) {
@@ -135,16 +166,9 @@ function getUser(req, res) {
     });
   }
 
-  function validateUser(email, password) {
-    var user = findUser(email);
-    return user.password == password;
-  }
-
   function generateToken(email) {
     var token = jwt.sign(
-      {email: email},
-      secretKey,
-      { expires: 2592000 } // expires in 30 days
+      {email: email}, secretKey, {expires: 2592000} // expires in 30 days
     );
     return token;
   }
@@ -152,9 +176,11 @@ function getUser(req, res) {
 // export controller functions
 
 module.exports = {
-  getUser:    getUser,
-  loginUser:  loginUser,
-  createUser: createUser,
-  getUsers:   getUsers
+  getUser:        getUser,
+  loginUser:      loginUser,
+  createUser:     createUser,
+  getUsers:       getUsers,
+  tokenVerify:    tokenVerify,
+  loadAuthUser:   loadAuthUser
 }
 

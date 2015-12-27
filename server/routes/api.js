@@ -22,10 +22,17 @@ module.exports = function(app) {
   app.use('/api', router);
 
   // Search OMDB by video's title
-  router.post('/info', InfoCtrl.searchTitle);
+  router.post('/info',      InfoCtrl.searchTitle);
+  app.post('/info',         InfoCtrl.searchTitle);
 
   // User routes
-  router.post('/login',   UsersCtrl.loginUser);
-  router.post('/users',   UsersCtrl.createUser);
-  router.get('/users',    UsersCtrl.getUsers);
+  router.post('/login',     UsersCtrl.loginUser);
+  router.post('/users',     UsersCtrl.createUser);
+  router.get('/users',      UsersCtrl.getUsers);
+  router.get('/me',         UsersCtrl.tokenVerify,
+                            UsersCtrl.loadAuthUser,
+                            UsersCtrl.getUser);
+  router.get('/users/:id',  UsersCtrl.tokenVerify,
+                            UsersCtrl.loadAuthUser,
+                            UsersCtrl.getUser);
 };

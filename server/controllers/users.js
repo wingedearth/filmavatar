@@ -2,16 +2,28 @@ var bcrypt    = require('mongoose-bcrypt'),
     jwt       = require('jsonwebtoken'),
     _         = require('lodash'),
     env       = require('../config/environment'),
-    User      = require('../models/user.js'),
-    Channel   = require('../models/channel.js')
-    users     = User.find();
+    User      = require('../models/user'),
+    Channel   = require('../models/channel');
+    // users     = User.find();
 
                 require('dotenv').load();
 var secretKey = process.env.SECRET_KEY;
 
 
 /********************
-* CREATE A NEW USER
+* Get All Users
+*********************/
+function getUsers(req, res) {
+  User.find({}, function(err, users) {
+        if (err) res.send(err);
+
+        // return the users
+        res.json(users);
+  });
+}
+
+/********************
+* Create a New User
 *********************/
 function createUser(req, res) {
   var user = new User();
@@ -76,25 +88,18 @@ function createUser(req, res) {
 *********************/
 
 function loginUser(req, res, next) {
-  var email = req.body.email;
-  var password = req.body.password;
-  // findUser(req.body.email)
-  User.findOne({email: email
+  User.findOne({email: req.body.email
   }).select('email password handle').exec(function(err, user) {
       if (err) throw err;
-
       if (!user) {
         res.json({
           success: false,
           message: 'Authentication failed. User not found.'
         });
-      } else { checkPassword(user, password, user.password) }
-    var token = generateToken(email);
+      } else { checkPassword(user, req.body.password, user.password) }
+    var token = generateToken(req.body.email);
     res.json({
-      success: true,
-      message: 'A token has been generated.',
-      token: token,
-      user: user
+      message: 'Token is generated.', success: true, token: token, user: user
     });
   });
 }
@@ -149,6 +154,7 @@ function getUser(req, res) {
 module.exports = {
   getUser:    getUser,
   loginUser:  loginUser,
-  createUser: createUser
+  createUser: createUser,
+  getUsers:   getUsers
 }
 

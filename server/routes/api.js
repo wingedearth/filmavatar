@@ -25,7 +25,7 @@ module.exports = function(app) {
   router.post('/info', InfoCtrl.searchTitle);
 
   // User routes
-  router.post('/login', UsersCtrl.loginUser)
-  router.post('/users', UsersCtrl.createUser);
-
+  router.post('/login',   UsersCtrl.loginUser);
+  router.post('/users',   UsersCtrl.createUser);
+  router.get('/users',    UsersCtrl.getUsers);
 };

@@ -149,7 +149,10 @@ function loginUser(req, res, next) {
       } else { checkPassword(user, req.body.password, user.password) }
     var token = generateToken(req.body.email);
     res.json({
-      message: 'Token is generated.', success: true, token: token, user: user
+      message: 'Token is generated.', success: true, token: token,
+      email: user.email,
+      handle: user.handle,
+      _id: user._id
     });
   });
 }
@@ -194,9 +197,9 @@ var tokenVerify = function(req, res, next) {
   }
 };
 
-/****************************
-*    Load Authenticated User
-*****************************/
+/*************************************
+* Add Authenticated User into Request
+**************************************/
 
 var loadAuthUser = function(req, res, next) {
   User.findOne({email: req.decoded.email}, function(err, user) {
@@ -216,16 +219,15 @@ var loadAuthUser = function(req, res, next) {
           messsage: 'You have failed at Authentication! Bad password! Bad!'
         });
       } else {
-        generateToken(user.email)
+        generateToken(user.email);
       }
     });
   }
 
   function generateToken(email) {
-    var token = jwt.sign(
+    return jwt.sign(
       {email: email}, secretKey, {expires: 2592000} // expires in 30 days
     );
-    return token;
   }
 
 // export controller functions

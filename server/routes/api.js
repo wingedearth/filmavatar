@@ -52,5 +52,7 @@ module.exports = function(app) {
                                 ChannelsCtrl.channelCreate);
   router.get('/channels',       ChannelsCtrl.channelIndex);
   router.get('/channels/:id',   ChannelsCtrl.getChannel);
-
+  router.put('/channels/:id',   UsersCtrl.tokenVerify,
+                                UsersCtrl.loadAuthUser,
+                                ChannelsCtrl.editChannel);
 };

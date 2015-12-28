@@ -41,6 +41,10 @@ var channelCreate     = function(req, res) {
   });
 };
 
+/******************************
+*    Retrieve a Channel
+*******************************/
+
 function getChannel(req, res) {
   Channel.findById(req.params.id, function (err, channel) {
     if (err) res.send(err);
@@ -48,12 +52,34 @@ function getChannel(req, res) {
   });
 }
 
+/******************************
+*    Edit a Channel
+*******************************/
+
+function editChannel(req, res) {
+  Channel.findById(req.params.id, function (err, channel) {
+    if (err) res.send(err);
+
+    if (req.body.name)        channel.name        = req.body.name;
+    if (req.body.description) channel.description = req.body.description;
+    if (req.body.imageUrl)    channel.imageUrl    = req.body.imageUrl;
+    if (req.body.isPrivate)   channel.isPrivate   = req.body.isPrivate;
+
+    channel.save(function(err) {
+      if (err) res.send(err);
+      res.json({
+        message: "Channel updated!",
+        channel: channel
+      });
+    });
+  });
+}
+
 
 // Export the function/s as JSON
 module.exports = {
-  // channelShow:   channelShow,
-  // channelUpdate: channelUpdate,
   // channelDelete: channelDelete,
+  editChannel:   editChannel,
   channelCreate: channelCreate,
   channelIndex:  channelIndex,
   getChannel:    getChannel

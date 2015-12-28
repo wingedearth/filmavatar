@@ -14,10 +14,8 @@ var secretKey = process.env.SECRET_KEY;
 *********************/
 function getUsers(req, res) {
   User.find({}, function(err, users) {
-        if (err) res.send(err);
-
-        // return the users
-        res.json(users);
+    if (err) res.send(err);
+    res.json(users); // return the users
   });
 }
 
@@ -113,8 +111,19 @@ function updateUser(req, res) {
 **********************/
 
 function addMyChannel(req, res) {
+  User.findById(req.user._id, function(err, user) {
+    if (req.body.myChannel) user.myChannels.push(myChannel);
+    user.save(function(err) {
+      if (err) res.send(err);
 
-// if (req.body.myChannels)     user.myChannels.push(req.body.myChannels);
+      var message = 'Subscribed to Channel ' + req.body.myChannel.channelTitle + '!';
+      res.json({
+        message: message,
+        isCurator: req.body.myChannel.isCurator,
+        isCreator: req.body.myChannel.isCreator
+      });
+    })
+  });
 
 }
 
@@ -162,13 +171,9 @@ function loginUser(req, res, next) {
 *****************************/
 var tokenVerify = function(req, res, next) {
   console.log('Somebody just accessed the Film Avatar API!');
-
-  // check header for token
   var token = req.headers['authorization'];
-  console.log("req.headers['authorization']: ", req.headers['authorization'])
 
-  // decode token
-  if (token) {
+  if (token) { // check header for token, and decode token
     token = token.split(" ")[1];
 
     // verifies secret and checks exp
@@ -186,14 +191,11 @@ var tokenVerify = function(req, res, next) {
     });
 
   } else {
-
-    // if there is no token
-    // return an HTTP response of 403 (access forbidden) and an error message
+    // if no token, return 403 (access forbidden) and error message
     res.status(403).send({
       success: false,
       message: 'No token provided.'
     });
-
   }
 };
 
@@ -240,6 +242,7 @@ module.exports = {
   tokenVerify:    tokenVerify,
   loadAuthUser:   loadAuthUser,
   updateUser:     updateUser,
-  deleteUser:     deleteUser
+  deleteUser:     deleteUser,
+  addMyChannel:   addMyChannel
 }
 

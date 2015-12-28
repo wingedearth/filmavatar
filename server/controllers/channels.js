@@ -41,7 +41,12 @@ var channelCreate     = function(req, res) {
   });
 };
 
-
+function getChannel(req, res) {
+  Channel.findById(req.params.id, function (err, channel) {
+    if (err) res.send(err);
+    res.json(channel);
+  });
+}
 
 
 // Export the function/s as JSON
@@ -50,5 +55,6 @@ module.exports = {
   // channelUpdate: channelUpdate,
   // channelDelete: channelDelete,
   channelCreate: channelCreate,
-  channelIndex:  channelIndex
+  channelIndex:  channelIndex,
+  getChannel:    getChannel
 }

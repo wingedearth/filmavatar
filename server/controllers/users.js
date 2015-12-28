@@ -116,7 +116,7 @@ function addMyChannel(req, res) {
     user.save(function(err) {
       if (err) res.send(err);
 
-      var message = 'Subscribed to Channel ' + req.body.myChannel.channelTitle + '!';
+      var message = 'Subscribed to Channel ' + req.body.myChannel.channelName + '!';
       res.json({
         message: message,
         isCurator: req.body.myChannel.isCurator,

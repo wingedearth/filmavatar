@@ -3,8 +3,9 @@ var videoSchema = require('./video');
 
 var channelSchema = new mongoose.Schema({
   name: { type: String, require: true, unique: true },
-  createdBy: { userEmail: String },
-  curatedBy: [{ userEmail: String }],
+  imageUrl: String,
+  createdBy: String,
+  curatedBy: [String],
   videos: [{
     title: {type: String, required: true, unique: true},
     url: {type: String, required: true},

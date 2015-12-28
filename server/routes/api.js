@@ -8,7 +8,7 @@ require('dotenv').load();
 
 // Set up controllers
   var UsersCtrl       = require('../controllers/users');
-  // var ChannelsCtrl    = require('../controllers/channels');
+  var ChannelsCtrl    = require('../controllers/channels');
   // var VideosCtrl      = require('../controllers/videos');
   var InfoCtrl        = require('../controllers/info');
 
@@ -22,21 +22,31 @@ module.exports = function(app) {
   app.use('/api', router);
 
   // Search OMDB by video's title
-  router.post('/info',        InfoCtrl.searchTitle);
-  app.post('/info',           InfoCtrl.searchTitle);
+  router.post('/info',          InfoCtrl.searchTitle);
+  app.post('/info',             InfoCtrl.searchTitle);
 
   // User routes
-  router.post('/login',       UsersCtrl.loginUser);
-  router.post('/users',       UsersCtrl.createUser);
-  router.get('/users',        UsersCtrl.getUsers);
-  router.get('/me',           UsersCtrl.tokenVerify,
-                              UsersCtrl.loadAuthUser,
-                              UsersCtrl.getUser);
-  router.get('/users/:id',    UsersCtrl.tokenVerify,
-                              UsersCtrl.loadAuthUser,
-                              UsersCtrl.getUser);
-  router.put('/users/:id',    UsersCtrl.tokenVerify,
-                              UsersCtrl.updateUser);
-  router.delete('/users/:id', UsersCtrl.tokenVerify,
-                              UsersCtrl.deleteUser);
+  router.post('/login',         UsersCtrl.loginUser);
+  router.post('/users',         UsersCtrl.createUser);
+  router.get('/users',          UsersCtrl.getUsers);
+  router.get('/me',             UsersCtrl.tokenVerify,
+                                UsersCtrl.loadAuthUser,
+                                UsersCtrl.getUser);
+  router.get('/users/:id',      UsersCtrl.tokenVerify,
+                                UsersCtrl.loadAuthUser,
+                                UsersCtrl.getUser);
+  router.delete('/users/:id',   UsersCtrl.tokenVerify,
+                                UsersCtrl.deleteUser);
+  router.put('/users/:id',      UsersCtrl.tokenVerify,
+                                UsersCtrl.updateUser);
+  router.put('/me/addchannel',  UsersCtrl.tokenVerify,
+                                UsersCtrl.loadAuthUser,
+                                UsersCtrl.addMyChannel);
+
+  // Channel routes
+  router.get('/channels',       ChannelsCtrl.channelIndex);
+  router.post('/channels',      UsersCtrl.tokenVerify,
+                                UsersCtrl.loadAuthUser,
+                                ChannelsCtrl.channelCreate);
+
 };

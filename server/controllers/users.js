@@ -9,6 +9,16 @@ var bcrypt    = require('mongoose-bcrypt'),
 var secretKey = process.env.SECRET_KEY;
 
 
+/*************************************
+*    Get list of myChannels, in detail
+**************************************/
+function channelsMine(req, res) {
+  Channel.find({}, function(err, channels) {
+    if (err) res.send(err);
+    res.json(req.user.myChannels);
+  });
+}
+
 /********************
 * Get All Users
 *********************/
@@ -243,6 +253,7 @@ module.exports = {
   loadAuthUser:   loadAuthUser,
   updateUser:     updateUser,
   deleteUser:     deleteUser,
-  addMyChannel:   addMyChannel
+  addMyChannel:   addMyChannel,
+  channelsMine:   channelsMine
 }
 

@@ -45,11 +45,16 @@ var channelCreate     = function(req, res) {
 *    Retrieve a Channel
 *******************************/
 
-function getChannel(req, res) {
+function getChannel(req, res, next) {
   Channel.findById(req.params.id, function (err, channel) {
     if (err) res.send(err);
-    res.json(channel);
+    req.channel = channel;
+    next();
   });
+}
+
+function showChannel(req, res) {
+  res.send(req.channel);
 }
 
 /******************************
@@ -82,5 +87,6 @@ module.exports = {
   editChannel:   editChannel,
   channelCreate: channelCreate,
   channelIndex:  channelIndex,
-  getChannel:    getChannel
+  getChannel:    getChannel,
+  showChannel:   showChannel
 }

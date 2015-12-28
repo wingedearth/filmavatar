@@ -5,7 +5,14 @@ var channelSchema = new mongoose.Schema({
   name: { type: String, require: true, unique: true },
   createdBy: { userEmail: String },
   curatedBy: [{ userEmail: String }],
-  videos: [videoSchema],
+  videos: [{
+    title: {type: String, required: true, unique: true},
+    url: {type: String, required: true},
+    votes: [{
+        userEmail: {type: String, required: true},
+        vote: {type: Number, required: true}
+        }]
+      }],
   isPrivate: {type: Boolean, default: false},
   accessList: [],
   description: String,

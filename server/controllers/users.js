@@ -276,12 +276,12 @@ var tokenVerify = function(req, res, next) {
 * Add Authenticated User into Request
 **************************************/
 
-var loadAuthUser = function(req, res, next) {
-  User.findOne({email: req.decoded.email}, function(err, user) {
-    req.user = user;
-    next();
-  });
-}
+  var loadAuthUser = function(req, res, next) {
+    User.findOne({email: req.decoded.email}, function(err, user) {
+      req.user = user;
+      next();
+    });
+  };
 
 
 // helper functions

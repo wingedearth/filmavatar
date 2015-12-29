@@ -21,6 +21,14 @@ function loadChannels(req, res, next) {
   })
 }
 
+function loadChannel(req, res, next) {
+  Channel.findById(req.params.id, function(err, channel) {
+    req.channel = channel;
+    req.curator = checkCurator(req.user, channel);
+    next();
+  })
+}
+
 /******************************
 *    Create Channel
 *******************************/
@@ -122,6 +130,7 @@ function deleteChannel(req, res) {
 
 // Export the function/s as JSON
 module.exports = {
+  loadChannel:      loadChannel,
   loadChannels:     loadChannels,
   deleteChannel:    deleteChannel,
   editChannel:      editChannel,
@@ -138,14 +147,12 @@ module.exports = {
 
 function checkCurator(user, channel) {
   var curator = false;
-  user.myChannels.forEach(function(myChannel) {
-    if (channel.name == myChannel.name) {
-      if (myChannel.isCurator==true) {
-        curator = true;
-        return curator;
-      }
-    }
-  });
+  if (user.isAdmin) {
+    return true;
+  }
+  return _.result(_.find(user.myChannels, function(myChannel) {
+    return myChannel.name == channel.name;
+  }), 'isCurator');
 }
 
 

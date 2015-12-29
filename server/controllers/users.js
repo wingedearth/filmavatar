@@ -17,13 +17,53 @@ function channelsMine(req, res) {
   res.json(req.user.myChannels);
 }
 
+/*******************************************
+*    Get a myChannels based on id parameter
+*******************************************/
+
 function channelMine(req, res) {
-  console.log("req.user.myChannels: ", req.user.myChannels);
   res.json(_.find(req.user.myChannels, function(myChannel) {
     return myChannel._id == req.params.id;
   }));
 }
 
+
+/*************************************
+*    Delete a myChannel
+**************************************/
+
+function deleteMyChannel(req, res) {
+  User.findById(req.user._id, function(err, user) {
+    user.myChannels.remove({
+      _id: req.params.id
+    }, function(err, myChannel) {
+      if (err) res.send(err);
+      res.json({message: 'myChannel successfully deleted.'});
+    });
+  });
+}
+
+
+
+//   index = _.findIndex(req.user.myChannels, function(myChannel) {
+//       return myChannel._id == req.params.id;
+//     });
+//   User.findById(req.user._id, function(err, user) {
+//     user.myChannels.splice(index, 1);
+//     user.save(function(err) {
+//       if (err) res.send(err);
+//       else {
+//         var message = 'myChannels has been updated!';
+//         res.json({success: true, message: message});
+//       }
+//     });
+//   });
+// }
+
+
+/*************************************
+*    Refresh myChannels list
+**************************************/
 
 function refreshMyChannels(req, res, next) {
   console.log("checkpoint 1");
@@ -284,6 +324,7 @@ var loadAuthUser = function(req, res, next) {
 // export controller functions
 
 module.exports = {
+  deleteMyChannel:    deleteMyChannel,
   channelMine:        channelMine,
   refreshMyChannels:  refreshMyChannels,
   getUser:            getUser,

@@ -49,6 +49,9 @@ module.exports = function(app) {
   router.get('/mychannels/:id',    UsersCtrl.tokenVerify,
                                    UsersCtrl.loadAuthUser,
                                    UsersCtrl.channelMine);
+  router.delete('/mychannels/:id', UsersCtrl.tokenVerify,
+                                   UsersCtrl.loadAuthUser,
+                                   UsersCtrl.deleteMyChannel);
 
 
   // Channel routes

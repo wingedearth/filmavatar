@@ -13,6 +13,14 @@ function channelIndex(req, res) {
   })
 }
 
+function loadChannels(req, res, next) {
+  Channel.find({}, function(err, channels) {
+    if (err) res.send(err);
+    req.channels = channels;
+    next();
+  })
+}
+
 /******************************
 *    Create Channel
 *******************************/
@@ -54,7 +62,7 @@ function getChannel(req, res, next) {
 }
 
 function showChannel(req, res) {
-  res.send(req.channel);
+  res.json(req.channel);
 }
 
 /******************************
@@ -98,12 +106,6 @@ function deleteChannel(req, res) {
     // delete the channel
     Channel.remove({_id: req.params.id}, function(err, deletedchannel) {
       if (err) res.send(err);
-      User.findById(req.user._id, function(err, user) {
-        user.myChannels.find({name: deletedchannel.name}, function(err, myChan, index) {
-          user.myChannels.splice(index, 1);
-          user.save();
-        })
-      })
       var message = 'Channel ' + deletedchannel.name + ' successfully deleted.';
       res.json({ message: message });
     });
@@ -120,6 +122,7 @@ function deleteChannel(req, res) {
 
 // Export the function/s as JSON
 module.exports = {
+  loadChannels:     loadChannels,
   deleteChannel:    deleteChannel,
   editChannel:      editChannel,
   channelCreate:    channelCreate,

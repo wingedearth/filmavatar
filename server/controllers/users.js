@@ -13,7 +13,7 @@ var secretKey = process.env.SECRET_KEY;
 *    Get list of myChannels, in detail
 **************************************/
 function channelsMine(req, res) {
-  console.log("hi");
+  console.log("channelsMine");
   res.json(req.user.myChannels);
 }
 
@@ -29,7 +29,7 @@ function channelMine(req, res) {
 
 
 /*************************************
-*    Delete a myChannel
+*    Remove a myChannel
 **************************************/
 
 function deleteMyChannel(req, res) {
@@ -43,7 +43,7 @@ function deleteMyChannel(req, res) {
     user.save(function(err) {
       if (err) res.send(err);
       res.json({
-      message: 'myChannel successfully deleted.',
+      message: 'myChannel successfully removed.',
       myChannels: user.myChannels
       });
     });
@@ -56,26 +56,28 @@ function deleteMyChannel(req, res) {
 **************************************/
 
 function refreshMyChannels(req, res, next) {
-  console.log("checkpoint 1");
-  for (i=0; i<req.user.myChannels.length; i++) {
-    if (i<req.user.myChannels.length) {
-      Channel.findOne({name: req.user.myChannels[i].name}, function(err, channel) {
-        if (!channel) {
-          console.log("checkpoint 2. req.user._id: ", req.user._id);
-          User.findById(req.user._id, function(err, user) {
-            console.log("checkpoint 3. user.email: ", user.email);
-            user.myChannels.splice(i, 1);
-            console.log("user.myChannels: ", user.myChannels);
-            user.save(function(err) {
-              if (err) res.send(err);
-            });
-          });
-        };
-      });
+  var mineChannels = req.user.myChannels;
+  for (var i=mineChannels.length - 1; i >= 0; i--) {
+    for (var j=0; j<=req.channels.length; j++) {
+      if (j==req.channels.length) {
+        req.user.myChannels.splice(i, 1);
+        break;
+      }
+      if (req.channels[j].name == mineChannels[i].name) {
+        break;
+      }
     }
   }
+  next();
 }
 
+function updateMyChannels(req, res, next) {
+  User.findById(req.user._id, function(err, user) {
+    user.myChannels = req.user.myChannels;
+    user.save();
+    next();
+  });
+}
 
 
 /********************
@@ -306,6 +308,7 @@ var loadAuthUser = function(req, res, next) {
 // export controller functions
 
 module.exports = {
+  updateMyChannels:   updateMyChannels,
   deleteMyChannel:    deleteMyChannel,
   channelMine:        channelMine,
   refreshMyChannels:  refreshMyChannels,

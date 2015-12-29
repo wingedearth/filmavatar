@@ -44,23 +44,6 @@ function deleteMyChannel(req, res) {
 }
 
 
-
-//   index = _.findIndex(req.user.myChannels, function(myChannel) {
-//       return myChannel._id == req.params.id;
-//     });
-//   User.findById(req.user._id, function(err, user) {
-//     user.myChannels.splice(index, 1);
-//     user.save(function(err) {
-//       if (err) res.send(err);
-//       else {
-//         var message = 'myChannels has been updated!';
-//         res.json({success: true, message: message});
-//       }
-//     });
-//   });
-// }
-
-
 /*************************************
 *    Refresh myChannels list
 **************************************/

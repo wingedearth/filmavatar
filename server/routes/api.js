@@ -44,15 +44,14 @@ module.exports = function(app) {
                                    UsersCtrl.addMyChannel);
   router.get('/mychannels',        UsersCtrl.tokenVerify,
                                    UsersCtrl.loadAuthUser,
-                                   UsersCtrl.refreshMyChannels,
+                                   // UsersCtrl.refreshMyChannels,
                                    UsersCtrl.channelsMine);
   router.get('/mychannels/:id',    UsersCtrl.tokenVerify,
                                    UsersCtrl.loadAuthUser,
                                    UsersCtrl.channelMine);
-  router.delete('/mychannels/:id', UsersCtrl.tokenVerify,
+  router.put('/me/delchannel',     UsersCtrl.tokenVerify,
                                    UsersCtrl.loadAuthUser,
                                    UsersCtrl.deleteMyChannel);
-
 
   // Channel routes
   router.post('/channels',         UsersCtrl.tokenVerify,

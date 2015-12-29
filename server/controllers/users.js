@@ -33,12 +33,19 @@ function channelMine(req, res) {
 **************************************/
 
 function deleteMyChannel(req, res) {
+  var index = _.findIndex(req.user.myChannels, {'name': req.body.name });
+  var deadChannel = _.find(req.user.myChannels, {'name': req.body.name });
   User.findById(req.user._id, function(err, user) {
-    user.myChannels.remove({
-      _id: req.params.id
-    }, function(err, myChannel) {
+    console.log("deadChannel ", deadChannel);
+    console.log("index ", index);
+    user.myChannels.splice(index, 1);
+    console.log("user.myChannels", user.myChannels);
+    user.save(function(err) {
       if (err) res.send(err);
-      res.json({message: 'myChannel successfully deleted.'});
+      res.json({
+      message: 'myChannel successfully deleted.',
+      myChannels: user.myChannels
+      });
     });
   });
 }
@@ -50,33 +57,25 @@ function deleteMyChannel(req, res) {
 
 function refreshMyChannels(req, res, next) {
   console.log("checkpoint 1");
-  for (i=0; i<=req.user.myChannels.length; i++) {
-
-    // after all myChannels have been checked, update user
-    if (i==req.user.myChannels.length) {
-      console.log("checkpoint 2");
-      User.findById(req.user._id, function(err, user) {
-        user.myChannels = req.user.myChannels;
-        user.save(function(err) {
-          if (err) {
-            console.log("here's the error: ", err);
-            res.send(err);
-          }
-          next();
-        });
-      })
-    }
-
+  for (i=0; i<req.user.myChannels.length; i++) {
     if (i<req.user.myChannels.length) {
       Channel.findOne({name: req.user.myChannels[i].name}, function(err, channel) {
         if (!channel) {
-          console.log("checkpoint 3");
-          req.user.myChannels.splice(i, 1);
-        }
+          console.log("checkpoint 2. req.user._id: ", req.user._id);
+          User.findById(req.user._id, function(err, user) {
+            console.log("checkpoint 3. user.email: ", user.email);
+            user.myChannels.splice(i, 1);
+            console.log("user.myChannels: ", user.myChannels);
+            user.save(function(err) {
+              if (err) res.send(err);
+            });
+          });
+        };
       });
     }
   }
 }
+
 
 
 /********************

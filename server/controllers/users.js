@@ -13,29 +13,45 @@ var secretKey = process.env.SECRET_KEY;
 *    Get list of myChannels, in detail
 **************************************/
 function channelsMine(req, res) {
+  console.log("hi");
   res.json(req.user.myChannels);
 }
 
-function refreshMyChannels(req, res, next) {
+function channelMine(req, res) {
+  console.log("req.user.myChannels: ", req.user.myChannels);
+  res.json(_.find(req.user.myChannels, function(myChannel) {
+    return myChannel._id == req.params.id;
+  }));
+}
 
+
+function refreshMyChannels(req, res, next) {
+  console.log("checkpoint 1");
   for (i=0; i<=req.user.myChannels.length; i++) {
 
     // after all myChannels have been checked, update user
     if (i==req.user.myChannels.length) {
+      console.log("checkpoint 2");
       User.findById(req.user._id, function(err, user) {
         user.myChannels = req.user.myChannels;
         user.save(function(err) {
-          if (err) res.send(err);
+          if (err) {
+            console.log("here's the error: ", err);
+            res.send(err);
+          }
           next();
         });
       })
     }
 
-    Channel.findOne({name: user.myChannels[i].name}, function(err, channel) {
-      if (!channel) {
-        req.user.myChannels.slice(index, 1);
-      }
-    });
+    if (i<req.user.myChannels.length) {
+      Channel.findOne({name: req.user.myChannels[i].name}, function(err, channel) {
+        if (!channel) {
+          console.log("checkpoint 3");
+          req.user.myChannels.splice(i, 1);
+        }
+      });
+    }
   }
 }
 
@@ -268,15 +284,17 @@ var loadAuthUser = function(req, res, next) {
 // export controller functions
 
 module.exports = {
-  getUser:        getUser,
-  loginUser:      loginUser,
-  createUser:     createUser,
-  getUsers:       getUsers,
-  tokenVerify:    tokenVerify,
-  loadAuthUser:   loadAuthUser,
-  updateUser:     updateUser,
-  deleteUser:     deleteUser,
-  addMyChannel:   addMyChannel,
-  channelsMine:   channelsMine
+  channelMine:        channelMine,
+  refreshMyChannels:  refreshMyChannels,
+  getUser:            getUser,
+  loginUser:          loginUser,
+  createUser:         createUser,
+  getUsers:           getUsers,
+  tokenVerify:        tokenVerify,
+  loadAuthUser:       loadAuthUser,
+  updateUser:         updateUser,
+  deleteUser:         deleteUser,
+  addMyChannel:       addMyChannel,
+  channelsMine:       channelsMine
 }
 

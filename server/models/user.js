@@ -14,7 +14,7 @@ var userSchema = new mongoose.Schema({
   city:  {type: String, default: 'Pasadena'},
   state: {type: String, default: 'CA'},
   zip:   {type: String, default: '91101'},
-  myChannels: [{name: String, isCurator: Boolean, isCreator: Boolean}],
+  myChannels: [{name: {type: String, required: true}, isCurator: Boolean, isCreator: Boolean}],
   isAdmin: { type: Boolean, default: false },
   created: { type: Date, default: Date.now },
   password: {type: String, required: true, bcrypt: true}

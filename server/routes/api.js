@@ -44,7 +44,11 @@ module.exports = function(app) {
                                    UsersCtrl.addMyChannel);
   router.get('/mychannels',        UsersCtrl.tokenVerify,
                                    UsersCtrl.loadAuthUser,
+                                   UsersCtrl.refreshMyChannels,
                                    UsersCtrl.channelsMine);
+  router.get('/mychannels/:id',    UsersCtrl.tokenVerify,
+                                   UsersCtrl.loadAuthUser,
+                                   UsersCtrl.channelMine);
 
 
   // Channel routes

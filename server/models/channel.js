@@ -2,7 +2,7 @@ var mongoose = require('mongoose');
 var videoSchema = require('./video');
 
 var channelSchema = new mongoose.Schema({
-  name: { type: String, require: true, unique: true },
+  name: { type: String, required: true, unique: true },
   imageUrl: String,
   createdBy: String,
   curatedBy: [String],

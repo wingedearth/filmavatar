@@ -13,11 +13,32 @@ var secretKey = process.env.SECRET_KEY;
 *    Get list of myChannels, in detail
 **************************************/
 function channelsMine(req, res) {
-  Channel.find({}, function(err, channels) {
-    if (err) res.send(err);
-    res.json(req.user.myChannels);
-  });
+  res.json(req.user.myChannels);
 }
+
+function refreshMyChannels(req, res, next) {
+
+  for (i=0; i<=req.user.myChannels.length; i++) {
+
+    // after all myChannels have been checked, update user
+    if (i==req.user.myChannels.length) {
+      User.findById(req.user._id, function(err, user) {
+        user.myChannels = req.user.myChannels;
+        user.save(function(err) {
+          if (err) res.send(err);
+          next();
+        });
+      })
+    }
+
+    Channel.findOne({name: user.myChannels[i].name}, function(err, channel) {
+      if (!channel) {
+        req.user.myChannels.slice(index, 1);
+      }
+    });
+  }
+}
+
 
 /********************
 * Get All Users
@@ -122,11 +143,11 @@ function updateUser(req, res) {
 
 function addMyChannel(req, res) {
   User.findById(req.user._id, function(err, user) {
-    if (req.body.myChannel) user.myChannels.push(myChannel);
+    if (req.body.myChannel) user.myChannels.push(req.body.myChannel);
     user.save(function(err) {
       if (err) res.send(err);
 
-      var message = 'Subscribed to Channel ' + req.body.myChannel.channelName + '!';
+      var message = 'Subscribed to Channel ' + req.body.myChannel.name + '!';
       res.json({
         message: message,
         isCurator: req.body.myChannel.isCurator,
@@ -165,14 +186,16 @@ function loginUser(req, res, next) {
           success: false,
           message: 'Authentication failed. User not found.'
         });
-      } else { checkPassword(user, req.body.password, user.password) }
-    var token = generateToken(req.body.email);
-    res.json({
+      } else {
+      checkPassword(user, req.body.password, user.password)
+      var token = generateToken(req.body.email);
+      res.json({
       message: 'Token is generated.', success: true, token: token,
       email: user.email,
       handle: user.handle,
       _id: user._id
     });
+      }
   });
 }
 

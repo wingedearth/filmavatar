@@ -32,7 +32,7 @@ var channelCreate     = function(req, res) {
 
     // add channel to user's myChannels
     User.findById(req.user._id, function(err, user) {
-      user.myChannels.push({channelName: req.body.name, isCurator: true, isCreator: true});
+      user.myChannels.push({name: req.body.name, isCurator: true, isCreator: true});
       user.save(function(err, savedUser) {
         console.log("Congratulations on starting a new channel!")
         res.json(savedChannel); //// return the channel
@@ -65,10 +65,16 @@ function editChannel(req, res) {
   Channel.findById(req.params.id, function (err, channel) {
     if (err) res.send(err);
 
-    if (req.body.name)        channel.name        = req.body.name;
+    // if (req.body.name)        channel.name        = req.body.name;
     if (req.body.description) channel.description = req.body.description;
     if (req.body.imageUrl)    channel.imageUrl    = req.body.imageUrl;
     if (req.body.isPrivate)   channel.isPrivate   = req.body.isPrivate;
+    if (req.body.video) {
+      channel.videos.push({
+        title:  req.body.video.title,
+        url:    req.body.video.url
+      });
+    }
 
     channel.save(function(err) {
       if (err) res.send(err);
@@ -80,13 +86,65 @@ function editChannel(req, res) {
   });
 }
 
+/******************************
+*    Delete a Channel
+*******************************/
+
+function deleteChannel(req, res) {
+
+  if ((checkCurator(req.user, req.channel)) ||
+      (req.user.isAdmin == true)) {
+
+    // delete the channel
+    Channel.remove({_id: req.params.id}, function(err, deletedchannel) {
+      if (err) res.send(err);
+      User.findById(req.user._id, function(err, user) {
+        user.myChannels.find({name: deletedchannel.name}, function(err, myChan, index) {
+          user.myChannels.splice(index, 1);
+          user.save();
+        })
+      })
+      var message = 'Channel ' + deletedchannel.name + ' successfully deleted.';
+      res.json({ message: message });
+    });
+
+  } else {
+    res.json({
+      success: false,
+      message: 'You are not a Curator'
+    });
+  }
+}
+
+
 
 // Export the function/s as JSON
 module.exports = {
-  // channelDelete: channelDelete,
-  editChannel:   editChannel,
-  channelCreate: channelCreate,
-  channelIndex:  channelIndex,
-  getChannel:    getChannel,
-  showChannel:   showChannel
+  deleteChannel:    deleteChannel,
+  editChannel:      editChannel,
+  channelCreate:    channelCreate,
+  channelIndex:     channelIndex,
+  getChannel:       getChannel,
+  showChannel:      showChannel
 }
+
+
+/*******************
+*  Helper Functions
+********************/
+
+function checkCurator(user, channel) {
+  var curator = false;
+  user.myChannels.forEach(function(myChannel) {
+    if (channel.name == myChannel.name) {
+      if (myChannel.isCurator==true) {
+        curator = true;
+        return curator;
+      }
+    }
+  });
+}
+
+
+
+

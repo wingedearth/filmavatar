@@ -11,6 +11,7 @@ var UsersCtrl       = require('../controllers/users');
 var ChannelsCtrl    = require('../controllers/channels');
 var VideosCtrl      = require('../controllers/videos');
 var InfoCtrl        = require('../controllers/info');
+var MyChannelsCtrl  = require('../controllers/mychannels');
 
 require('dotenv').load(); // load environmental variables
 
@@ -41,24 +42,30 @@ module.exports = function(app) {
                                       UsersCtrl.deleteUser);
   router.put('/users/:id',            UsersCtrl.tokenVerify,
                                       UsersCtrl.updateUser);
-  router.put('/me/addchannel',        UsersCtrl.tokenVerify,
+
+
+/**********************************
+* MyChannel routes
+***********************************/
+
+  router.post('/mychannels',          UsersCtrl.tokenVerify,
                                       UsersCtrl.loadAuthUser,
-                                      UsersCtrl.addMyChannel);
+                                      MyChannelsCtrl.addMyChannel);
   router.get('/mychannels',           UsersCtrl.tokenVerify,
                                       UsersCtrl.loadAuthUser,
                                       ChannelsCtrl.loadChannels,
-                                      UsersCtrl.refreshMyChannels,
-                                      UsersCtrl.updateMyChannels,
-                                      UsersCtrl.channelsMine);
+                                      MyChannelsCtrl.refreshMyChannels,
+                                      MyChannelsCtrl.updateMyChannels,
+                                      MyChannelsCtrl.channelsMine);
   router.get('/mychannels/:id',       UsersCtrl.tokenVerify,
                                       UsersCtrl.loadAuthUser,
-                                      UsersCtrl.channelMine);
+                                      MyChannelsCtrl.channelMine);
   router.put('/me/removemychannel',   UsersCtrl.tokenVerify,
                                       UsersCtrl.loadAuthUser,
-                                      UsersCtrl.deleteMyChannel);
+                                      MyChannelsCtrl.deleteMyChannel);
   router.delete('/mychannels/:id',    UsersCtrl.tokenVerify,
                                       UsersCtrl.loadAuthUser,
-                                      UsersCtrl.delMyChannel);
+                                      MyChannelsCtrl.delMyChannel);
 
 /**********************************
 * Channel Routes
@@ -88,7 +95,6 @@ module.exports = function(app) {
                                       UsersCtrl.loadAuthUser,
                                       ChannelsCtrl.loadChannel,
                                       VideosCtrl.addVideo);
-
 
 };
 

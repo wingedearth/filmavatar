@@ -32,6 +32,7 @@ function channelMine(req, res) {
 *    Remove a myChannel
 **************************************/
 
+// remove myChannel by sending name in req.body
 function deleteMyChannel(req, res) {
   var index = _.findIndex(req.user.myChannels, {'name': req.body.name });
   var deadChannel = _.find(req.user.myChannels, {'name': req.body.name });
@@ -46,6 +47,26 @@ function deleteMyChannel(req, res) {
       message: 'myChannel successfully removed.',
       myChannels: user.myChannels
       });
+    });
+  });
+}
+
+// remove myChannel by sending myChannel _id in req.params.id
+function delMyChannel(req, res) {
+  var index = _.findIndex(req.user.myChannels, function(myChannel) {
+    return myChannel._id == req.params.id;
+  });
+  var deadChannel = _.find(req.user.myChannels, function(myChannel) {
+    return myChannel._id == req.params.id;
+  });
+  User.findById(req.user._id, function(err, user) {
+    user.myChannels.splice(index, 1);
+
+    user.save(function(err) {
+      console.log("checkpoint 3");
+      if (err) res.send(err);
+      var message = "myChannel deleted!";
+      res.json({message: message});
     });
   });
 }
@@ -308,6 +329,7 @@ var tokenVerify = function(req, res, next) {
 // export controller functions
 
 module.exports = {
+  delMyChannel:       delMyChannel,
   updateMyChannels:   updateMyChannels,
   deleteMyChannel:    deleteMyChannel,
   channelMine:        channelMine,

@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" ng-app="app">
 <head>
   <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1.0, user-scalable=no"/>
@@ -8,12 +8,12 @@
   <link rel="stylesheet" type="text/css" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/0.97.5/css/materialize.min.css" media="screen,projection">
   <link rel="stylesheet" type="text/css" href="css/style.css" media="screen,projection"/>
   <script src="https://code.jquery.com/jquery-2.1.1.min.js"></script>
-  <script src="//ajax.googleapis.com/ajax/libs/angularjs/1.4.2/angular.min.js"></script>
+  <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.4.2/angular.min.js"></script>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/angular-ui-router/0.2.15/angular-ui-router.js"></script>
   <script src="js/materialize.js"></script>
   <script src="js/init.js"></script>
 </head>
-<body>
+<body ng-controller="MainController">
     <nav class="black" role="navigation">
     <div class="nav-wrapper container">
       <a id="logo-container" href="#" class="brand-logo">Film Avatar</a>
@@ -30,24 +30,11 @@
     </div>
   </nav>
 
-  <div id="index-banner" class="parallax-container">
-    <div class="section no-pad-bot">
-      <div class="container">
-        <br><br>
-        <h1 class="header center teal-text text-lighten-2">Welcome to Film Avatar</h1>
-        <div class="row center">
-          <h5 class="header col s12 light">Make webTV your own</h5>
-        </div>
-        <div class="row center">
-          <a href="channels.html" id="download-button" class="btn-large waves-effect waves-light teal lighten-1">Browse Channels</a>
-        </div>
-        <br><br>
+  <div ui-view class="ng-scope"></div>
+  {{videos}}
 
-      </div>
-    </div>
-    <!-- <div class="parallax"><img src="img/thinman.jpg" alt="Unsplashed background img 1"></div> -->
-  </div>
-
-  <script type="text/javascript" src="/js/app/app.module.js"></script>
+  <script src="js/app/app.module.js"></script>
+  <script src="js/app/app.routes.js"></script>
+  <script src="js/app/controllers/main.js"></script>
 </body>
 </html>

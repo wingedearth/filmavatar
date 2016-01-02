@@ -9,14 +9,15 @@
 
   function UsersController($scope, $state, userDataService, $log) {
 
-
+    // attach functions to controller
     $scope.createUser = createUser;
 
+    // define functions
     function createUser() {
-      $scope.message = '';
+      $scope.message = ''; // clear pre-existing message
       userDataService.create($scope.userData)
         .success(function(data) {
-          $scope.userData = {};
+          $scope.userData = {}; // clear userData for subsequent use
           $scope.message = data.message;
           console.log $scope.message;
         });

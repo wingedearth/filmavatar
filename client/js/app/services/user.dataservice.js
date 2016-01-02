@@ -18,7 +18,7 @@
     };
 
     // GET current user's own info
-    userFactory.get = function(id) {
+    userFactory.me = function(id) {
       return $http.get('/api/me/');
     };
 

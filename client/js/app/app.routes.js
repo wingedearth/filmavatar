@@ -13,7 +13,31 @@
         url: '/',
         templateUrl: 'templates/home.html'
       })
-      .state("user", {})
+      .state("register", {
+        url: "/register",
+        templateUrl: "templates/register.html",
+        controller: "UsersController"
+      })
+      .state("channels", {
+        url: "/channels",
+        templateUrl: "templates/channels.html",
+        controller: "ChannelsController"
+      })
+      .state("mychannels", {
+        url: "/mychannels",
+        templateUrl: "templates/mychannels.html",
+        controller: "MyChannelsController"
+      })
+      .state("channel", {
+        url: "/channel",
+        templateUrl: "templates/channel.html",
+        controller: "ChannelController"
+      })
+      .state("video", {
+        url: "/video",
+        templateUrl: "templates/video.html",
+        controller: "VideoController"
+      });
 
       $urlRouterProvider.otherwise("/");
   }

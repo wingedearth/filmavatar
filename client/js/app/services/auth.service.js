@@ -93,7 +93,36 @@
 *****************************/
 
   function authInterceptor($q, $location, authToken) {
+    var interceptorFactory = {}; // declare interceptor factory
 
+    // configure headers on all http requests
+    interceptorFactory.request = function(config) {
+      var token = authToken.getToken();
+
+      if (token) config.headers['x-access-token'] = token;
+
+      return config;
+    };
+
+    interceptorFactory.responseError = function(response) {
+
+      // if error 403 forbidden
+      if (response.status = 403) {
+        authToken.setToken(); // clear out token
+        $location.path('/');
+      }
+
+      // return server errors as a promise
+      return $q.reject(response);
+    }
+
+    return interceptorFactory;
   }
 
 })();
+
+
+
+
+
+

@@ -11,6 +11,7 @@
 
     // attach functions to controller
     $scope.createUser = createUser;
+    $scope.currentUser = authService.currentUser;
 
     // define functions
     function createUser() {

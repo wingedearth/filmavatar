@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" ng-app="app">
 <head>
   <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1.0, user-scalable=no"/>
@@ -13,14 +13,14 @@
   <script src="js/materialize.js"></script>
   <script src="js/init.js"></script>
 </head>
-<body ng-app="app" ng-controller="MainController">
+<body ng-controller="MainController">
     <nav class="black" role="navigation">
     <div class="nav-wrapper container">
       <a id="logo-container" href="#" class="brand-logo">Film Avatar</a>
       <ul class="right hide-on-med-and-down">
-        <li><a href="">Login</a></li>
         <li><a href="#">Change Channel</a></li>
         <li><a href="#">Videos</a></li>
+        <li><a href="">Login</a></li>
       </ul>
 
       <ul id="nav-mobile" class="side-nav">
@@ -36,6 +36,10 @@
 
   <script src="js/app/app.module.js"></script>
   <script src="js/app/app.routes.js"></script>
+  <script src="js/app/services/auth.service.js"></script>
+  <script src="js/app/services/user.dataservice.js"></script>
   <script src="js/app/controllers/main.js"></script>
+  <script src="js/app/controllers/users.js"></script>
+  <script src="js/app/controllers/login.js"></script>
 </body>
 </html>

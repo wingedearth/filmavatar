@@ -20,7 +20,7 @@
         .success(function(data) {
           $scope.userData = {}; // clear userData for subsequent use
           $scope.message = data.message;
-          console.log $scope.message;
+          console.log($scope.message);
         });
         $state.go('home');
     }

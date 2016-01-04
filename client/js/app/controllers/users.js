@@ -5,9 +5,9 @@
     .module('app')
     .controller("UsersController", UsersController);
 
-  UsersController.$inject = ['$scope', '$state', 'userDataService', '$log']
+  UsersController.$inject = ['$scope', '$state', 'userDataService', '$log', 'authService']
 
-  function UsersController($scope, $state, userDataService, $log) {
+  function UsersController($scope, $state, userDataService, $log, authService) {
 
     // attach functions to controller
     $scope.createUser = createUser;

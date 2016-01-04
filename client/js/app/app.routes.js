@@ -13,6 +13,11 @@
         url: '/',
         templateUrl: 'templates/home.html'
       })
+      .state('login', {
+        url: '/login',
+        templateUrl: 'templates/login.html',
+        controller: "LoginController"
+      })
       .state("register", {
         url: "/register",
         templateUrl: "templates/register.html",

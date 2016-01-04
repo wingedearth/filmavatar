@@ -135,17 +135,25 @@ function loginUser(req, res, next) {
           message: 'Authentication failed. User not found.'
         });
       } else {
-      checkPassword(user, req.body.password, user.password)
-      var token = generateToken(req.body.email);
-      res.json({
-      message: 'Token is generated.', success: true, token: token,
-      email: user.email,
-      handle: user.handle,
-      _id: user._id
-    });
-      }
+        // checkPassword(user, req.body.password, user.password);
+
+        user.verifyPassword(req.body.password, function(err, validpassword) {
+        if (!validpassword) {
+          res.json({
+            success: false,
+            messsage: 'You have failed at Authentication! Bad password! Bad!'
+          });
+        } else {
+          var token = generateToken(req.body.email);
+          res.json({
+            message: 'Token is generated.', success: true, token: token,
+            user: user
+          })
+        }
+      });
+    }
   });
-}
+};
 
 /****************************
 *    Verify that token!
@@ -194,18 +202,18 @@ var tokenVerify = function(req, res, next) {
 
 // helper functions
 
-  function checkPassword(user, password, validpassword) {
-    user.verifyPassword(password, function(err, validpassword) {
-      if (!validpassword) {
-        res.json({
-          success: false,
-          messsage: 'You have failed at Authentication! Bad password! Bad!'
-        });
-      } else {
-        generateToken(user.email);
-      }
-    });
-  }
+  // function checkPassword(user, password, validpassword) {
+  //   user.verifyPassword(password, function(err, validpassword) {
+  //     if (!validpassword) {
+  //       res.json({
+  //         success: false,
+  //         messsage: 'You have failed at Authentication! Bad password! Bad!'
+  //       });
+  //     } else {
+  //       generateToken(user.email);
+  //     }
+  //   });
+  // }
 
   function generateToken(email) {
     return jwt.sign(

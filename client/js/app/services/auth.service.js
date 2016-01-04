@@ -7,7 +7,7 @@
     .factory('authInterceptor', authInterceptor);
 
   authToken.$inject       = ['$window'];
-  authService.$inject     = ['$http', '$q', 'authToken', 'userDataService', '$state'];
+  authService.$inject     = ['$http', '$q', 'authToken', 'userDataService', '$state', '$log'];
   authInterceptor.$inject = ['$q', '$location', 'authToken'];
 
 /************************
@@ -40,7 +40,7 @@
 *   Auth Service Factory
 *************************/
 
-  function authService($http, $q, authToken, userDataService, $state) {
+  function authService($http, $q, authToken, userDataService, $state, $log) {
     var authFactory = {}; // declare auth service factory object
     var currentUser;
 
@@ -49,14 +49,14 @@
 
       // send JSON in req.body to server's api/login route
       return $http.post('/api/login', {
-        email: email,
+        email:    email,
         password: password
       })
         .success(function(data) {
           authToken.setToken(data.token);
           currentUser           = data.user;
           userDataService.user  = data.user;
-
+          $log.log("from the auth factory: ", data.user.handle);
           return data;
         });
     };
@@ -65,7 +65,7 @@
     authFactory.logout = function() {
       authToken.setToken(); // clear out token
 
-      $state.go('home');
+      $state.go('login');
     };
 
     // check if user is logged in

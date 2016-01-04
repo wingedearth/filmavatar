@@ -14,17 +14,20 @@
   <script src="js/init.js"></script>
 </head>
 <body ng-controller="MainController">
-    <nav class="black" role="navigation">
+    <nav class="black" role="navigation" ng-controller="UsersController">
     <div class="nav-wrapper container">
-      <a id="logo-container" href="#" class="brand-logo">Film Avatar</a>
+      <a id="logo-container" ui-sref="home" class="brand-logo">Film Avatar</a>
       <ul class="right hide-on-med-and-down">
-        <li><a href="#">Change Channel</a></li>
+        <li><a href="#">All Channels</a></li>
+        <li><a href="#">My Channels</a></li>
         <li><a href="#">Videos</a></li>
-        <li><a href="">Login</a></li>
+        <li ng-show="!isLoggedIn()"><a ui-sref="login">Login</a></li>
+        <li ng-show="isLoggedIn()" ng-click="logout()">Logout</li>
       </ul>
 
       <ul id="nav-mobile" class="side-nav">
-        <li><a href="#">Change Channel</a></li>
+        <li><a href="#">All Channels</a></li>
+        <li><a href="#">My Channels</a></li>
         <li><a href="#">Videos</a></li>
       </ul>
       <a href="#" data-activates="nav-mobile" class="button-collapse"><i class="material-icons">menu</i></a>
@@ -32,7 +35,7 @@
   </nav>
 
   <div ui-view class="ng-scope"></div>
-  {{videos}}
+
 
   <script src="js/app/app.module.js"></script>
   <script src="js/app/app.routes.js"></script>

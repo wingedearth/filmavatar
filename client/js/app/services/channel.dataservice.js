@@ -23,7 +23,6 @@
       return $http.get('/api/channels/')
       .success(function(response) {
          channelFactory.allChannels = response;
-         console.log("response: ", response);
       });
     };
 

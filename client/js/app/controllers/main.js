@@ -5,14 +5,17 @@
     .module("app")
     .controller("MainController", MainController);
 
-  MainController.$inject = ["$scope", "$state", "userDataService", "$log", "authService"];
+  MainController.$inject = [
+      "$scope", "$state", "$log",
+      "userDataService", "authService", "channelDataService"];
 
-  function MainController($scope, $state, userDataService, $log, authService) {
+  function MainController($scope, $state, $log,
+      userDataService, authService, channelDataService) {
     $scope.$state     = $state;
-    $scope.videos     = "video2";
     $scope.logout     = authService.logout;
     $scope.login      = authService.login;
     $scope.isLoggedIn = authService.isLoggedIn;
+    channelDataService.all();
   }
 
 })();

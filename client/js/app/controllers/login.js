@@ -11,7 +11,7 @@
     $scope.login = login;
     $scope.logout = authService.logout;
     $scope.isLoggedIn = authService.isLoggedIn;
-    // $scope.$state = $state;
+    $scope.$state = $state;
     $scope.currentUser = userDataService.user;
     $scope.loginData;
 

@@ -9,19 +9,8 @@
 
   function ChannelsController($state, $scope, $log, $http, channelDataService) {
 
-    $scope.channels;
-    $scope.getChannels  = getChannels;
+    $scope.channels     = channelDataService.allChannels;
     $scope.getChannel   = getChannel;
-    getChannels();
-
-
-    function getChannels() {
-      $http.get('/api/channels').then(function(response) {
-        $scope.channels = response.data;
-      }, function(errRes) {
-        console.error('There was an error retrieving the channels index!', errRes);
-      });
-    }
 
     function getChannel(id) {
       channelDataService.get(id);

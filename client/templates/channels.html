@@ -1,9 +1,9 @@
 
 <div class="container">
-<h4><u><i>Channels</i></u></h4>
-  <ul id="channels">
-    <li ng-repeat="channel in channels">
-      <button ng-click="getChannel(channel._id)">- {{channel.name}}</button>
+  <ul id="channels" class="collection with-header">
+    <li class="collection-header"><h4>Channels</h4></li>
+    <li class="collection-item" ng-repeat="channel in channels">
+      <p class="waves-effect" ng-click="getChannel(channel._id)"> {{channel.name}}</p>
     </li>
   </ul>
   <div >

@@ -1,3 +1,17 @@
+
+
 <div class="container">
- <p>This is a channel entitled, {{chan.name}}.</p>
+<nav>
+  <div class="nav-wrapper">
+    <ul>
+      <li><a ui-sref="channels">Back</a></li>
+      <li><a>Edit Channel</a></li>
+      <li><a>Delete Channel</a></li>
+      <li><a>See Videos In This Channel</a></li>
+    </ul>
+  </div>
+  </nav>
+  <div class="container-image"><img src="{{chan.imageUrl}}"></div>
+  <h2>{{chan.name}}</h2>
+  <p>{{chan.description}}</p>
 </div>

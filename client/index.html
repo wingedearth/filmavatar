@@ -22,7 +22,7 @@
         <li><a href="#">My Channels</a></li>
         <li><a href="#">Videos</a></li>
         <li ng-show="!isLoggedIn()"><a ui-sref="login">Login</a></li>
-        <li ng-show="isLoggedIn()" ng-click="logout()">Logout</li>
+        <li ng-show="isLoggedIn()" ng-click="logout()"><a>Logout</a></li>
       </ul>
 
       <ul id="nav-mobile" class="side-nav">
@@ -41,8 +41,11 @@
   <script src="js/app/app.routes.js"></script>
   <script src="js/app/services/auth.service.js"></script>
   <script src="js/app/services/user.dataservice.js"></script>
+  <script src="js/app/services/channel.dataservice.js"></script>
   <script src="js/app/controllers/main.js"></script>
   <script src="js/app/controllers/users.js"></script>
   <script src="js/app/controllers/login.js"></script>
+  <script src="js/app/controllers/channels.js"></script>
+  <script src="js/app/controllers/channel.js"></script>
 </body>
 </html>

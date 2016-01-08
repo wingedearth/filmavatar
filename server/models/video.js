@@ -1,8 +1,8 @@
 var mongoose = require('mongoose');
 
 var videoSchema = new mongoose.Schema({
-  title:        {type: String, require: true},
-  url:          {type: String, require: true},
+  title:        {type: String},
+  url:          {type: String},
   votes:        [{userEmail: String, vote: Number}],
 });
 

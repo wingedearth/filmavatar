@@ -1,4 +1,6 @@
 var mongoose = require('mongoose');
+var MyChannel = require('./mychannel')
+
 
 var userSchema = new mongoose.Schema({
   email: {
@@ -14,7 +16,7 @@ var userSchema = new mongoose.Schema({
   city:  {type: String, default: 'Pasadena'},
   state: {type: String, default: 'CA'},
   zip:   {type: String, default: '91101'},
-  myChannels: [{name: {type: String, required: true}, isCurator: Boolean, isCreator: Boolean}],
+  myChannels: [MyChannel.schema],
   isAdmin: { type: Boolean, default: false },
   created: { type: Date, default: Date.now },
   password: {type: String, required: true, bcrypt: true}
@@ -24,3 +26,5 @@ userSchema.plugin(require('mongoose-bcrypt'));
 
 // Export the schema
 module.exports = mongoose.model('User', userSchema);
+
+

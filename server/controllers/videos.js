@@ -2,11 +2,26 @@ var _         = require('lodash'),
     env       = require('../config/environment'),
     User      = require('../models/user'),
     Channel   = require('../models/channel');
+    Video     = require('../models/video');
 
+
+function loadVideoIndex(req, res, next) {
+  console.log("req.channel2: ", req.channel);
+  req.indx = findIndx(req.channel.videos, req.body.title);
+  next();
+}
+
+/*******************************************
+*    Get List of Videos in Selected Channel
+*******************************************/
 
 function getChannelVideos(req, res) {
     res.send(req.channel.videos);
 }
+
+/***********************************
+*    Add Video to Selected Channel
+************************************/
 
 function addVideo(req, res) {
   if ((req.body.video) && (req.curator==true)) {
@@ -22,10 +37,47 @@ function addVideo(req, res) {
   }
 }
 
+/**************************************
+*    Delete Video from Selected Channel
+***************************************/
+
+function deleteVideo(req, res) {
+  if ((req.body.title) && (req.curator==true)) {
+    Channel.findById(req.params.id, function(err, channel) {
+      if (err) res.send("ERROR: ", err); // report errors
+
+      // channel.videos.splice(req.indx, 1); // remove video from array
+      channel.save(function(err) {
+        if (err) res.send(err);
+        var message = "Video Deleted: " + req.body.title;
+        res.json({
+          message: message,
+          channel: channel
+        });
+      });
+    });
+  }
+}
+
 
 module.exports = {
 
-  getChannelVideos:   getChannelVideos,
-  addVideo:           addVideo
-
+  loadVideoIndex:     loadVideoIndex,
+  deleteVideo:        deleteVideo,
+  addVideo:           addVideo,
+  getChannelVideos:   getChannelVideos
 }
+
+// Helper functions
+
+function findIndx(videosArray, title) {
+  for (i = 0; i < videosArray.length; i++) {
+    if (videosArray[i].title === title) {
+        return i;
+    }
+  }
+  return false;
+}
+
+
+

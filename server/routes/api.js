@@ -48,18 +48,16 @@ module.exports = function(app) {
 * MyChannel routes
 ***********************************/
 
-  router.post('/mychannels',          UsersCtrl.tokenVerify,
+  router.post('/me/channels/add/',    UsersCtrl.tokenVerify,
                                       UsersCtrl.loadAuthUser,
+                                      MyChannelsCtrl.verifyChannel,
                                       MyChannelsCtrl.addMyChannel);
-  router.get('/mychannels',           UsersCtrl.tokenVerify,
+  router.get('/me/channels',          UsersCtrl.tokenVerify,
                                       UsersCtrl.loadAuthUser,
                                       ChannelsCtrl.loadChannels,
                                       MyChannelsCtrl.refreshMyChannels,
                                       MyChannelsCtrl.updateMyChannels,
                                       MyChannelsCtrl.channelsMine);
-  router.get('/mychannels/:id',       UsersCtrl.tokenVerify,
-                                      UsersCtrl.loadAuthUser,
-                                      MyChannelsCtrl.channelMine);
   router.put('/me/removemychannel',   UsersCtrl.tokenVerify,
                                       UsersCtrl.loadAuthUser,
                                       MyChannelsCtrl.deleteMyChannel);
@@ -87,15 +85,20 @@ module.exports = function(app) {
 /**********************************
 * Video Routes
 ***********************************/
-  router.get('/channels/:id/videos',  UsersCtrl.tokenVerify,
-                                      UsersCtrl.loadAuthUser,
-                                      ChannelsCtrl.loadChannel,
-                                      VideosCtrl.getChannelVideos);
-  router.post('/channels/:id/videos', UsersCtrl.tokenVerify,
-                                      UsersCtrl.loadAuthUser,
-                                      ChannelsCtrl.loadChannel,
-                                      VideosCtrl.addVideo);
-
+  // router.get('/channels/:id/videos',  UsersCtrl.tokenVerify,
+  //                                     UsersCtrl.loadAuthUser,
+  //                                     ChannelsCtrl.loadChannel,
+  //                                     VideosCtrl.getChannelVideos);
+  // // router.post('/channels/:id/videos', UsersCtrl.tokenVerify,
+  // //                                     UsersCtrl.loadAuthUser,
+  // //                                     ChannelsCtrl.loadChannel,
+  // //                                     VideosCtrl.addVideo);
+  // router.delete('/channels/:id/videos',
+  //                                     UsersCtrl.tokenVerify,
+  //                                     UsersCtrl.loadAuthUser,
+  //                                     ChannelsCtrl.loadChannel,
+  //                                     VideosCtrl.loadVideoIndex,
+  //                                     VideosCtrl.deleteVideo)
 };
 
 

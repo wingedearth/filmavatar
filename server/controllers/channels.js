@@ -1,7 +1,8 @@
 var _         = require('lodash'),
     env       = require('../config/environment'),
     User      = require('../models/user'),
-    Channel   = require('../models/channel');
+    Channel   = require('../models/channel'),
+    MyChannel = require('../models/mychannel');
 
 /******************************
 *    Get Channels List
@@ -23,7 +24,11 @@ function loadChannels(req, res, next) {
 
 function loadChannel(req, res, next) {
   Channel.findById(req.params.id, function(err, channel) {
+    if (err) console.log("error: ", error);
     req.channel = channel;
+    console.log("channel: ", channel);
+    console.log("req.params.id:", req.params.id);
+    console.log("req.channel1: ", req.channel);
     req.curator = checkCurator(req.user, channel);
     next();
   })
@@ -37,6 +42,7 @@ var channelCreate     = function(req, res) {
   channel.name        = req.body.name;
   channel.imageUrl    = req.body.imageUrl;
   channel.createdBy   = req.user.email;
+  channel.videos      = [];
   channel.curatedBy.push(req.user.email);
   channel.isPrivate   = false;
   channel.description = req.body.description;
@@ -46,11 +52,16 @@ var channelCreate     = function(req, res) {
       res.send(err)
     }
 
+    newMyChannel              = new MyChannel();
+    newMyChannel.name         = req.body.name;
+    newMyChannel.isCurator    = true;
+
     // add channel to user's myChannels
     User.findById(req.user._id, function(err, user) {
-      user.myChannels.push({name: req.body.name, isCurator: true, isCreator: true});
+      user.myChannels.push({newMyChannel});
       user.save(function(err, savedUser) {
-        console.log("Congratulations on starting a new channel!")
+        console.log("Congratulations on starting a new channel!");
+        console.log("It has been added to your channels list.");
         res.json(savedChannel); //// return the channel
       });
     });

@@ -3,7 +3,8 @@ var bcrypt    = require('mongoose-bcrypt'),
     _         = require('lodash'),
     env       = require('../config/environment'),
     User      = require('../models/user'),
-    Channel   = require('../models/channel');
+    Channel   = require('../models/channel'),
+    MyChannel = require('../models/mychannel');
 
                 require('dotenv').load();
 var secretKey = process.env.SECRET_KEY;
@@ -14,19 +15,25 @@ var secretKey = process.env.SECRET_KEY;
 **********************/
 
 function addMyChannel(req, res) {
-  User.findById(req.user._id, function(err, user) {
-    if (req.body.myChannel) user.myChannels.push(req.body.myChannel);
-    user.save(function(err) {
-      if (err) res.send(err);
-
-      var message = 'Subscribed to Channel ' + req.body.myChannel.name + '!';
-      res.json({
-        message: message,
-        isCurator: req.body.myChannel.isCurator,
-        isCreator: req.body.myChannel.isCreator
+  if (req.channel) {
+    newMyChannel              = new MyChannel();
+    newMyChannel.name         = req.body.name;
+    newMyChannel.isCurator    = false;
+    User.findById(req.user._id, function(err, user) {
+      user.myChannels.push(newMyChannel)
+      user.save(function(err) {
+        if (err) res.send(err);
+        var message = 'Subscribed to Channel ' + newMyChannel.name + '!';
+        res.json({
+          message: message,
+        });
       });
-    })
-  });
+    });
+  } else {
+      res.json({
+        message: "Channel not found. Sorry, Charlie."
+      });
+  }
 }
 
 
@@ -35,7 +42,6 @@ function addMyChannel(req, res) {
 **************************************/
 
 function channelsMine(req, res) {
-  console.log("channelsMine");
   res.json(req.user.myChannels);
 }
 
@@ -44,9 +50,10 @@ function channelsMine(req, res) {
 *******************************************/
 
 function channelMine(req, res) {
-  res.json(_.find(req.user.myChannels, function(myChannel) {
-    return myChannel._id == req.params.id;
-  }));
+  MyChannel.findById(req.params.id, function(err, myChannel) {
+    if (err) res.send(err);
+    res.json(myChannel);
+  });
 }
 
 
@@ -121,9 +128,26 @@ function updateMyChannels(req, res, next) {
   });
 }
 
+function verifyChannel(req, res, next) {
+  Channel.findOne({'name': req.body.name}, function(err, channel) {
+    req.channel = null;
+    if (channel)
+      req.channel = channel;
+    next();
+  });
+}
+
+function makeCurator(req, res) {
+  User.findById(req.user._id, function(err, user) {
+
+  });
+}
+
 
 module.exports = {
 
+  makeCurator:        makeCurator,
+  verifyChannel:      verifyChannel,
   addMyChannel:       addMyChannel,
   updateMyChannels:   updateMyChannels,
   refreshMyChannels:  refreshMyChannels,

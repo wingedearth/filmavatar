@@ -26,9 +26,6 @@ function loadChannel(req, res, next) {
   Channel.findById(req.params.id, function(err, channel) {
     if (err) console.log("error: ", error);
     req.channel = channel;
-    console.log("channel: ", channel);
-    console.log("req.params.id:", req.params.id);
-    console.log("req.channel1: ", req.channel);
     req.curator = checkCurator(req.user, channel);
     next();
   })

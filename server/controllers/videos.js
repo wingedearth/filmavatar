@@ -11,12 +11,19 @@ function loadVideoIndex(req, res, next) {
   next();
 }
 
-/*******************************************
-*    Get List of Videos in Selected Channel
-*******************************************/
+/*************************************
+*    Get Videos in Selected Channel
+**************************************/
 
 function getChannelVideos(req, res) {
     res.send(req.channel.videos);
+}
+
+function getVideo(req, res) {
+  var index = _.findIndex(req.channel.videos, function(video) {
+      return video._id == req.params.vidId;
+    });
+  res.json(req.channel.videos[index]);
 }
 
 /***********************************
@@ -70,6 +77,7 @@ function deleteVideo(req, res) {
 
 module.exports = {
 
+  getVideo:           getVideo,
   loadVideoIndex:     loadVideoIndex,
   deleteVideo:        deleteVideo,
   addVideo:           addVideo,

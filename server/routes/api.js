@@ -103,7 +103,12 @@ module.exports = function(app) {
                                       UsersCtrl.loadAuthUser,
                                       ChannelsCtrl.loadChannel,
                                       VideosCtrl.loadVideoIndex,
-                                      VideosCtrl.deleteVideo)
+                                      VideosCtrl.deleteVideo);
+  router.get('/videos/:id/:vidId',
+                                      UsersCtrl.tokenVerify,
+                                      UsersCtrl.loadAuthUser,
+                                      ChannelsCtrl.loadChannel,
+                                      VideosCtrl.getVideo);
 };
 
 

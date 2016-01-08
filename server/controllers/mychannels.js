@@ -77,13 +77,9 @@ function channelMine(req, res) {
 
 // remove myChannel by sending name in req.body
 function deleteMyChannel(req, res) {
-  var index = _.findIndex(req.user.myChannels, {'name': req.body.name });
-  var deadChannel = _.find(req.user.myChannels, {'name': req.body.name });
+  var index = req.indx;
   User.findById(req.user._id, function(err, user) {
-    console.log("deadChannel ", deadChannel);
-    console.log("index ", index);
     user.myChannels.splice(index, 1);
-    console.log("user.myChannels", user.myChannels);
     user.save(function(err) {
       if (err) res.send(err);
       res.json({
@@ -99,14 +95,10 @@ function delMyChannel(req, res) {
   var index = _.findIndex(req.user.myChannels, function(myChannel) {
     return myChannel._id == req.params.id;
   });
-  var deadChannel = _.find(req.user.myChannels, function(myChannel) {
-    return myChannel._id == req.params.id;
-  });
+
   User.findById(req.user._id, function(err, user) {
     user.myChannels.splice(index, 1);
-
     user.save(function(err) {
-      console.log("checkpoint 3");
       if (err) res.send(err);
       var message = "myChannel deleted!";
       res.json({message: message});

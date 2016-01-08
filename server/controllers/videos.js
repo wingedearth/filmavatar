@@ -24,9 +24,12 @@ function getChannelVideos(req, res) {
 ************************************/
 
 function addVideo(req, res) {
-  if ((req.body.video) && (req.curator==true)) {
+  if ((req.body.title) && (req.curator==true) && (req.body.url)) {
+    var video   = new Video();
+    video.title = req.body.title;
+    video.url   = req.body.url;
     Channel.findById(req.params.id, function(err, channel) {
-      channel.videos.push(req.body.video);
+      channel.videos.push(video);
       channel.save(function(err) {
         res.json({
           message: "Video added!",
@@ -43,9 +46,14 @@ function addVideo(req, res) {
 
 function deleteVideo(req, res) {
   if ((req.body.title) && (req.curator==true)) {
+    var index = _.findIndex(req.channel.videos, function(video) {
+      return video.title == req.body.title;
+    });
+    console.log("index: ", index);
+
     Channel.findById(req.params.id, function(err, channel) {
       if (err) res.send("ERROR: ", err); // report errors
-
+      channel.videos.splice(index, 1);
       // channel.videos.splice(req.indx, 1); // remove video from array
       channel.save(function(err) {
         if (err) res.send(err);

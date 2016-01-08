@@ -48,6 +48,10 @@ module.exports = function(app) {
 * MyChannel routes
 ***********************************/
 
+  router.put('/me/channels',          UsersCtrl.tokenVerify,
+                                      UsersCtrl.loadAuthUser,
+                                      MyChannelsCtrl.loadMyChannel,
+                                      MyChannelsCtrl.beCurator);
   router.post('/me/channels/add/',    UsersCtrl.tokenVerify,
                                       UsersCtrl.loadAuthUser,
                                       MyChannelsCtrl.verifyChannel,

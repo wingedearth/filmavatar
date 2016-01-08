@@ -10,6 +10,11 @@ var bcrypt    = require('mongoose-bcrypt'),
 var secretKey = process.env.SECRET_KEY;
 
 
+function loadMyChannel(req, res, next) {
+  req.indx = findIndx(req.user.myChannels, req.body.name);
+  next();
+}
+
 /**********************
 *    Add myChannel
 **********************/
@@ -34,6 +39,15 @@ function addMyChannel(req, res) {
         message: "Channel not found. Sorry, Charlie."
       });
   }
+}
+
+function verifyChannel(req, res, next) {
+  Channel.findOne({'name': req.body.name}, function(err, channel) {
+    req.channel = null;
+    if (channel)
+      req.channel = channel;
+    next();
+  });
 }
 
 
@@ -101,7 +115,7 @@ function delMyChannel(req, res) {
 }
 
 /*************************************
-*    Refresh myChannels list
+*    Update myChannels
 **************************************/
 
 function refreshMyChannels(req, res, next) {
@@ -128,25 +142,25 @@ function updateMyChannels(req, res, next) {
   });
 }
 
-function verifyChannel(req, res, next) {
-  Channel.findOne({'name': req.body.name}, function(err, channel) {
-    req.channel = null;
-    if (channel)
-      req.channel = channel;
-    next();
-  });
-}
 
-function makeCurator(req, res) {
-  User.findById(req.user._id, function(err, user) {
 
-  });
+function beCurator(req, res) {
+  if (req.user.isAdmin == true) {
+    User.findById(req.user._id, function(err, user) {
+      user.myChannels[req.indx].isCurator = true;
+      user.save(function(err) {
+        if(err) res.json(err);
+        res.json({message: "you are now a curator!"});
+      });
+    });
+  }
 }
 
 
 module.exports = {
 
-  makeCurator:        makeCurator,
+  loadMyChannel:      loadMyChannel,
+  beCurator:          beCurator,
   verifyChannel:      verifyChannel,
   addMyChannel:       addMyChannel,
   updateMyChannels:   updateMyChannels,
@@ -156,3 +170,15 @@ module.exports = {
   channelMine:        channelMine,
   channelsMine:       channelsMine
 }
+
+// Helper Functions
+
+function findIndx(myChannelsArray, name) {
+  for (i = 0; i < myChannelsArray.length; i++) {
+    if (myChannelsArray[i].name === name) {
+        return i;
+    }
+  }
+  return false;
+}
+

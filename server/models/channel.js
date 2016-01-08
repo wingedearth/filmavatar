@@ -3,7 +3,7 @@ var videoSchema = require('./video');
 
 var channelSchema = new mongoose.Schema({
   name: { type: String, required: true, unique: true },
-  imageUrl: String,
+  imageUrl: {type: String, default: "https://upload.wikimedia.org/wikipedia/commons/thumb/8/80/Televison_Hungarian_ORION_1957.jpg/800px-Televison_Hungarian_ORION_1957.jpg"},
   createdBy: String,
   curatedBy: [String],
   videos: [{

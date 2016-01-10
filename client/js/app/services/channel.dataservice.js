@@ -26,6 +26,13 @@
       });
     };
 
+    // POST (create) a new channel
+    // channel Data is an object that includes the following keys:
+    // name, imageUrl, description (all as Strings)
+    channelFactory.create = function(channelData) {
+      return $http.post('/api/channels/', channelData);
+    };
+
     return channelFactory;
   }
 

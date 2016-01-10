@@ -29,6 +29,11 @@
         templateUrl: "templates/channels.html",
         controller: "ChannelsController"
       })
+      .state("addchannel", {
+        url: "/channels/new",
+        templateUrl: "templates/newchannel.html",
+        controller: "ChannelsController"
+      })
       .state("mychannels", {
         url: "/mychannels",
         templateUrl: "templates/mychannels.html",

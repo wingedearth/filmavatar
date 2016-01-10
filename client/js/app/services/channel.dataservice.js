@@ -33,6 +33,10 @@
       return $http.post('/api/channels/', channelData);
     };
 
+    channelFactory.delete = function(id) {
+      return $http.delete('/api/channels/' + id);
+    };
+
     return channelFactory;
   }
 

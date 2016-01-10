@@ -38,6 +38,10 @@
         url: "/channels/new/created",
         templateUrl: "templates/newchannelcreated.html"
       })
+      .state("channeldeleted", {
+        url: "/channels/deleted",
+        templateUrl: "templates/channeldeleted.html"
+      })
       .state("mychannels", {
         url: "/mychannels",
         templateUrl: "templates/mychannels.html",

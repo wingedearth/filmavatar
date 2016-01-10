@@ -9,11 +9,24 @@
 
   function ChannelsController($state, $scope, $log, $http, channelDataService) {
 
-    $scope.channels     = channelDataService.allChannels;
-    $scope.getChannel   = getChannel;
+    $scope.channels       = channelDataService.allChannels;
+    $scope.getChannel     = getChannel;
+    $scope.createChannel  = createChannel;
+    $scope.channelData;
 
     function getChannel(id) {
       channelDataService.get(id);
+    }
+
+    function createChannel() {
+      $scope.message = ''; // clear pre-existing message
+      channelDataService.create($scope.channelData)
+        .success(function(data) {
+          $scope.channelData = {}; // clear channelData for subsequent use
+          $scope.message = data.message;
+          console.log($scope.message);
+        });
+        $state.go('channels');
     }
 
   }

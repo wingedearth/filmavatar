@@ -14,21 +14,21 @@
   <script src="js/init.js"></script>
 </head>
 <body ng-controller="MainController">
-    <nav class="black" role="navigation" ng-controller="UsersController">
+    <nav class="black" role="navigation">
     <div class="nav-wrapper container">
       <a id="logo-container" ui-sref="home" class="brand-logo">Film Avatar</a>
       <ul class="right hide-on-med-and-down">
         <li><a ui-sref="channels">All Channels</a></li>
         <li><a href="#">My Channels</a></li>
-        <li><a href="#">Videos</a></li>
         <li ng-show="!isLoggedIn()"><a ui-sref="login">Login</a></li>
-        <li ng-show="isLoggedIn()" ng-click="logout()"><a>Logout</a></li>
+        <li ng-show="isLoggedIn()" ng-click="logout()"><a>Logout {{currentUser().handle}}</a></li>
       </ul>
 
       <ul id="nav-mobile" class="side-nav">
         <li><a ui-sref="channels">All Channels</a></li>
         <li><a href="#">My Channels</a></li>
-        <li><a href="#">Videos</a></li>
+        <li ng-show="!isLoggedIn()"><a ui-sref="login">Login</a></li>
+        <li ng-show="isLoggedIn()" ng-click="logout()"><a>Logout {{currentUser().handle}}</a></li>
       </ul>
       <a href="#" data-activates="nav-mobile" class="button-collapse"><i class="material-icons">menu</i></a>
     </div>

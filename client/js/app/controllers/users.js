@@ -22,7 +22,7 @@
           $scope.message = data.message;
           console.log($scope.message);
         });
-        $state.go('home');
+        $state.go('login');
     }
   }
 })();

@@ -11,12 +11,13 @@
     $stateProvider
       .state('home', {
         url: '/',
-        templateUrl: 'templates/home.html'
+        templateUrl: 'templates/home.html',
+        controller: ""
       })
       .state('login', {
         url: '/login',
         templateUrl: 'templates/login.html',
-        controller: "LoginController"
+        controller: "MainController"
       })
       .state("register", {
         url: "/register",

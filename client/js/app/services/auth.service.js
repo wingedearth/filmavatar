@@ -70,20 +70,34 @@
 
     // check if user is logged in
     authFactory.isLoggedIn = function() {
-      if (authToken.getToken()) return true;
-      else return false;
+      if (authToken.getToken()) {
+        // currentUser = this.getUser();
+        return true;
+      } else return false;
     };
 
     authFactory.currentUser = function() {
       return currentUser;
     };
 
-    authFactory.getUser = function(id) {
-      if (authToken.getToken())
-        return $http.get('/api/users/' + id, {cache: true});
-      else
-        return $q.reject({message: 'Come back when you have a token.'});
+    authFactory.getUser = function() {
+      if (authToken.getToken()) {
+        return $http.get('/api/me', {cache: true})
+          .success(function(data) {
+            currentUser           = data;
+            userDataService.user  = data;
+            $log.log("from this auth factory: ", data.handle);
+            return data;
+          });
+      }
     };
+
+    // authFactory.getUser = function() {
+    //   if (authToken.getToken())
+    //     return $http.get('/api/me', {cache: true});
+    //   else
+    //     return $q.reject({message: 'Come back when you have a token.'});
+    // };
 
     return authFactory;
   }

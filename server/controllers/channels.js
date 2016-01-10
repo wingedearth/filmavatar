@@ -35,9 +35,10 @@ function loadChannel(req, res, next) {
 *    Create Channel
 *******************************/
 var channelCreate     = function(req, res) {
+  console.log("req.body: ", req.body);
   var channel         = new Channel();
   channel.name        = req.body.name;
-  channel.imageUrl    = req.body.imageUrl;
+  // channel.imageUrl    = req.body.imageUrl;
   channel.createdBy   = req.user.email;
   channel.videos      = [];
   channel.curatedBy.push(req.user.email);
@@ -46,22 +47,25 @@ var channelCreate     = function(req, res) {
 
   channel.save(function(err, savedChannel) {
     if (err) {
-      res.send(err)
+      res.status(err).send(savedChannel);
+    }
+    else {
+      console.log("nice job! you got this far.");
     }
 
-    newMyChannel              = new MyChannel();
-    newMyChannel.name         = req.body.name;
-    newMyChannel.isCurator    = true;
+    // res.json("Your channel has been created!");
 
-    // add channel to user's myChannels
-    User.findById(req.user._id, function(err, user) {
-      user.myChannels.push({newMyChannel});
-      user.save(function(err, savedUser) {
-        console.log("Congratulations on starting a new channel!");
-        console.log("It has been added to your channels list.");
-        res.json(savedChannel); //// return the channel
-      });
-    });
+    // newMyChannel              = new MyChannel();
+    // newMyChannel.name         = req.body.name;
+    // newMyChannel.isCurator    = true;
+
+    // User.findById(req.user._id, function(err, user) {
+    //   user.myChannels.push({newMyChannel});
+    //   // user.save(function(err, savedUser) {
+    //   //   res.json("Your channel has been created!"); //// return the channel
+    //   // });
+    //   user.save();
+    // });
   });
 };
 

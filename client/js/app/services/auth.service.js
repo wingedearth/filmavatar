@@ -71,7 +71,6 @@
     // check if user is logged in
     authFactory.isLoggedIn = function() {
       if (authToken.getToken()) {
-        // currentUser = this.getUser();
         return true;
       } else return false;
     };

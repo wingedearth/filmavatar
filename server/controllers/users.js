@@ -160,15 +160,17 @@ function loginUser(req, res, next) {
 *****************************/
 var tokenVerify = function(req, res, next) {
   console.log('Somebody just accessed the Film Avatar API!');
-  var token = req.headers['authorization'];
-
+  var token = req.body.token || req.query.token || req.headers['x-access-token'];
+  console.log("token: ", token);
   if (token) { // check header for token, and decode token
-    token = token.split(" ")[1];
+    token1 = token.split(" ")[1];
+    if (token1) { token = token1 };
 
     // verifies secret and checks exp
     jwt.verify(token, secretKey, function(err, decoded) {
 
       if (err) {
+        console.log("Can't authenticate this token:", token);
         res.status(403).json({
           success: false,
           message: 'Failed to authenticate token.'
@@ -180,6 +182,7 @@ var tokenVerify = function(req, res, next) {
     });
 
   } else {
+    console.log("Looks like there was no token provided.");
     // if no token, return 403 (access forbidden) and error message
     res.status(403).send({
       success: false,

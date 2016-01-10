@@ -21,9 +21,9 @@
 
     channelFactory.all = function() {
       return $http.get('/api/channels/')
-      .success(function(response) {
-         channelFactory.allChannels = response;
-      });
+      // .success(function(response) {
+      //    channelFactory.allChannels = response;
+      // });
     };
 
     // POST (create) a new channel

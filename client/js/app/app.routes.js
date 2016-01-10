@@ -17,7 +17,7 @@
       .state('login', {
         url: '/login',
         templateUrl: 'templates/login.html',
-        controller: "MainController"
+        controller: "LoginController"
       })
       .state("register", {
         url: "/register",
@@ -33,6 +33,10 @@
         url: "/channels/new",
         templateUrl: "templates/newchannel.html",
         controller: "ChannelsController"
+      })
+      .state("newchannelcreated", {
+        url: "/channels/new/created",
+        templateUrl: "templates/newchannelcreated.html"
       })
       .state("mychannels", {
         url: "/mychannels",

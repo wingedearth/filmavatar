@@ -1,4 +1,26 @@
-<!-- To Do: create form for adding a new channel -->
 
 <!-- default imageUrl: -->
-<!-- https://upload.wikimedia.org/wikipedia/commons/thumb/8/80/Televison_Hungarian_ORION_1957.jpg/800px-Televison_Hungarian_ORION_1957.jpg
+<!-- https://upload.wikimedia.org/wikipedia/commons/thumb/8/80/Televison_Hungarian_ORION_1957.jpg/800px-Televison_Hungarian_ORION_1957.jpg -->
+
+<div class="container">
+  <h4>New Channel</h4>
+  <br>
+  <form ng-submit="createChannel()">
+    <div class="row">
+      <label for="inputName" class="left-jus col-md-offset-3">Channel Name</label>
+      <div class="form-group col-md-6 col-md-offset-3">
+        <input type="text" id="inputName" class="form-control" placeholder="Name of Channel..." ng-model="channelData.name" required />
+      </div>
+    </div>
+    <div class="row">
+      <label for="inputDescription" class="left-jus col-md-offset-3">Description</label>
+      <div class="form-group col-md-6 col-md-offset-3">
+        <input type="text" id="inputDescription" class="form-control" ng-model="channelData.description" required />
+      </div>
+    </div>
+
+    <button class="btn btn-success submit-login-button" type="submit">Submit!</button>
+  </form>
+
+</div>
+

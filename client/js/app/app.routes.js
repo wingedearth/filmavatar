@@ -43,6 +43,10 @@
         url: "/video",
         templateUrl: "templates/video.html",
         controller: "VideoController"
+      })
+      .state("about", {
+        url: "/about",
+        templateUrl: "templates/about.html"
       });
 
       $urlRouterProvider.otherwise("/");

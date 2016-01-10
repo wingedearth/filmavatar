@@ -24,25 +24,6 @@ relationship with its local community. To a lesser extent, affiliates
 of national TV networks would also provide certain content with a 
 local emphasis via locally produced news programs.
 
-In 2012, a company called Aereo attempted to solve the problem by
-extending local broadcast reception to ideally located antennae that
-members of the public could lease in order to stream can time-shift
-video content for viewing at home.
-
-Broadcasters did not like Aereo's solution, because it was outside
-of the rigidly regulated telecommunications standards that allowed
-broadcasters and copyright owners to reap the benefits of
-"retransmission royalties" from cable companies, who have 
-distributed the majority of television content for decades. After
-Aereo's defeat in the Supreme Court, the public is left with few 
-options for large amounts of free video content curated by their
-communities.
-
-Sites like YouTube.com offer certain solutions, but are unfortunately
-burdened by a reliance on popularity, advertisements, and
-a lack of a full station's worth of premium content through a single 
-portal.
-
 See the following articles for more information:
 
 - [Welcome to Web TV, Cord Cutters. Don't Forget Your Credit Card](http://www.cnet.com/news/welcome-to-web-tv-cord-cutters-dont-forget-your-credit-card/)
@@ -67,18 +48,101 @@ database of videos for each station.
 7. CSS3
 8. Git / Github
 9. Heroku
+10. MaterializeCSS
 
 
 ### Routes
 
+/**********************************
+* User routes
+***********************************/
+  router.post('/login')
+  router.post('/users')
+  router.get('/users')
+  router.get('/me')
+  router.get('/users/:id')
+  router.delete('/users/:id')
+  router.put('/users/:id')
+
+
+/**********************************
+* MyChannel routes
+***********************************/
+
+  router.put('/me/channels')
+  router.post('/me/channels/add/')
+  router.get('/me/channels')
+  router.delete('/me/channels')
+  router.delete('/me/channels/:id')
+
+/**********************************
+* Channel Routes
+***********************************/
+  router.post('/channels')
+  router.get('/channels')
+  router.get('/channels/:id')
+  router.put('/channels/:id')
+  router.delete('/channels/:id')
+
+/**********************************
+* Video Routes
+***********************************/
+  router.get('/channels/:id/videos')
+  router.post('/channels/:id/videos')
+  router.delete('/channels/:id/videos')
+  router.get('/videos/:id/:vidId')
+
+
 
 ### Data Models
 
+var channelSchema = new mongoose.Schema({
+  name: { type: String, required: true, unique: true },
+  imageUrl: {type: String, default: "https://upload.wikimedia.org/wikipedia/commons/thumb/8/80/Televison_Hungarian_ORION_1957.jpg/800px-Televison_Hungarian_ORION_1957.jpg"},
+  createdBy: String,
+  curatedBy: [String],
+  videos: [Video.schema],
+  isPrivate: {type: Boolean, default: false},
+  accessList: [],
+  description: String,
+  votes: [{userEmail: String, vote: Number}],
+  dateAdded: { type: Date, default: Date.now }
+});
 
+var myChannelSchema = new mongoose.Schema({
+  name: {type: String, required: true},
+  isCurator: Boolean,
+});
+
+var userSchema = new mongoose.Schema({
+  email: {
+    type:     String,
+    unique:   true,
+    required: true
+  },
+  handle: {
+    type:    String,
+    unique:  true,
+    required: true
+  },
+  city:  {type: String, default: 'Pasadena'},
+  state: {type: String, default: 'CA'},
+  zip:   {type: String, default: '91101'},
+  myChannels: [MyChannel.schema],
+  isAdmin: { type: Boolean, default: false },
+  created: { type: Date, default: Date.now },
+  password: {type: String, required: true, bcrypt: true}
+});
+
+var videoSchema = new mongoose.Schema({
+  title:        {type: String},
+  url:          {type: String},
+  votes:        [{userEmail: String, vote: Number}],
+});
 
 
 ***
 
 This program is distributed in the hope that it will be useful, but WITHOUT ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.
 
-Copyright (c) 2015 Andrew A. Anissi
+Copyright (c) 2015-2016 Andrew A. Anissi

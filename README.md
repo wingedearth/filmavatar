@@ -53,92 +53,101 @@ database of videos for each station.
 
 ### Routes
 
-/**********************************
-* User routes
-***********************************/
-  router.post('/login')
-  router.post('/users')
-  router.get('/users')
-  router.get('/me')
-  router.get('/users/:id')
-  router.delete('/users/:id')
-  router.put('/users/:id')
+
+|  OMDB Routes      | req.body          | description
+|------------------|-----------|----------------|
+| post('/api/info')	| {title: TITLE} 	| pull video info from OMDB|
+| post('/info')    | {title: TITLE}	| pull video info from OMDB|
 
 
-/**********************************
-* MyChannel routes
-***********************************/
 
-  router.put('/me/channels')
-  router.post('/me/channels/add/')
-  router.get('/me/channels')
-  router.delete('/me/channels')
-  router.delete('/me/channels/:id')
+|  User Routes      |           |
+|------------------|-----------|
+| post('/api/login')          | login user / generate token     |
+| post('/api/users')          | create user                 |
+| get('/api/users')           | get all users               |
+| get('/api/me')           | get current user            |
+| get('/api/users/:id')    | get particular user (by id) |
+| delete('/api/users/:id') | delete a user               |
+| put('/api/users/:id')    | edit a user                 |
 
-/**********************************
-* Channel Routes
-***********************************/
-  router.post('/channels')
-  router.get('/channels')
-  router.get('/channels/:id')
-  router.put('/channels/:id')
-  router.delete('/channels/:id')
 
-/**********************************
-* Video Routes
-***********************************/
-  router.get('/channels/:id/videos')
-  router.post('/channels/:id/videos')
-  router.delete('/channels/:id/videos')
-  router.get('/videos/:id/:vidId')
+
+** myChannels are a user's own channels list**
+
+
+|  MyChannel Routes       |           |
+|-------------------------|-----------|
+| put('/api/me/channels') | edit current user's subscribed channels |
+| post('/api/me/channels/add/') | subscribe to a channel (add it to myChannel) |
+| get('/api/me/channels') | get current user's subscribed channels |
+| delete('/api/me/channels') | unsubscribe by channel name |
+| delete('/api/me/channels/:id') | unsubscrube by channel _id |
+
+|  Channel Routes      |           |
+|----------------------|-----------|
+| post('/api/login')			| login user / generate token     |
+| post('/api/channels')				| add a new channel |
+| get('/api/channels') 				| get all channels |
+| get('/api/channels/:id')  		| get a particular channel |
+| put('/api/channels/:id')			| edit a channel |
+| delete('/api/channels/:id')		| delete a channel |
+
+
+|  Video Routes			|           |
+|----------------------|-----------|
+| get('/api/channels/:id/videos') 		| get all videos on a channel |
+| post('/api/channels/:id/videos')		| add a new video |
+| delete('/api/channels/:id/videos') 	| remove a video |
+| get('/api/videos/:id/:vidId')			| get a particular video
 
 
 
 ### Data Models
 
-var channelSchema = new mongoose.Schema({
-  name: { type: String, required: true, unique: true },
-  imageUrl: {type: String, default: "https://upload.wikimedia.org/wikipedia/commons/thumb/8/80/Televison_Hungarian_ORION_1957.jpg/800px-Televison_Hungarian_ORION_1957.jpg"},
-  createdBy: String,
-  curatedBy: [String],
-  videos: [Video.schema],
-  isPrivate: {type: Boolean, default: false},
-  accessList: [],
-  description: String,
-  votes: [{userEmail: String, vote: Number}],
+- channelSchema<br>
+  name: { type: String, required: true, unique: true },<br>
+  imageUrl: {type: String, default: "https://upload.wikimedia.org/wikipedia/commons/thumb/8/80/Televison_Hungarian_ORION_1957.jpg/800px-Televison_Hungarian_ORION_1957.jpg"},<br>
+  createdBy: String,<br>
+  curatedBy: [String],<br>
+  videos: [Video.schema],<br>
+  isPrivate: {type: Boolean, default: false},<br>
+  accessList: [],<br>
+  description: String,<br>
+  votes: [{userEmail: String, vote: Number}],<br>
   dateAdded: { type: Date, default: Date.now }
-});
 
-var myChannelSchema = new mongoose.Schema({
-  name: {type: String, required: true},
+
+- myChannelSchema<br>
+  name: {type: String, required: true},<br>
   isCurator: Boolean,
-});
 
-var userSchema = new mongoose.Schema({
-  email: {
-    type:     String,
-    unique:   true,
-    required: true
-  },
-  handle: {
-    type:    String,
-    unique:  true,
-    required: true
-  },
-  city:  {type: String, default: 'Pasadena'},
-  state: {type: String, default: 'CA'},
-  zip:   {type: String, default: '91101'},
-  myChannels: [MyChannel.schema],
-  isAdmin: { type: Boolean, default: false },
-  created: { type: Date, default: Date.now },
-  password: {type: String, required: true, bcrypt: true}
-});
 
-var videoSchema = new mongoose.Schema({
-  title:        {type: String},
-  url:          {type: String},
-  votes:        [{userEmail: String, vote: Number}],
-});
+- userSchema<br>
+  email: {<br>
+    type:     String,<br>
+    unique:   true,<br>
+    required: true<br>
+  },<br>
+  handle: {<br>
+    type:    String,<br>
+    unique:  true,<br>
+    required: true<br>
+  },<br>
+  city:  {type: String, default: 'Pasadena'},<br>
+  state: {type: String, default: 'CA'},<br>
+  zip:   {type: String, default: '91101'},<br>
+  myChannels: [MyChannel.schema],<br>
+  isAdmin: { type: Boolean, default: false },<br>
+  created: { type: Date, default: Date.now },<br>
+  password: {type: String, required: true, bcrypt: true}<br>
+
+
+- videoSchema<br>
+  title:        {type: String},<br>
+  url:          {type: String},<br>
+  votes:        [{userEmail: String, vote: Number}],<br>
+
 
 
 ***

@@ -56,7 +56,7 @@
           authToken.setToken(data.token);
           currentUser           = data.user;
           userDataService.user  = data.user;
-          $log.log("from the auth factory: ", data.user.handle);
+          // $log.log("from the auth factory: ", data.user.handle);
           return data;
         });
     };
@@ -85,7 +85,7 @@
           .success(function(data) {
             currentUser           = data;
             userDataService.user  = data;
-            $log.log("from this auth factory: ", data.handle);
+            // $log.log("from this auth factory: ", data.handle);
             return data;
           });
       }

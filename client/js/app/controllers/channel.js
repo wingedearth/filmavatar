@@ -12,7 +12,7 @@
     $scope.chan          = channelDataService.currentChannel;
     $scope.deleteChannel = deleteChannel;
     $scope.videos        = $scope.chan.videos;
-
+    $scope.getVideo      = getVideo;
 
     function deleteChannel(id) {
       channelDataService.delete($scope.chan._id)
@@ -29,6 +29,11 @@
       }, function(errRes) {
         console.error('Error getting videos!', errRes);
       });
+    }
+
+    function getVideo(vid) {
+      channelDataService.setCurrentVideo(vid);
+      $state.go('video');
     }
   }
 

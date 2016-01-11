@@ -37,6 +37,11 @@
       return $http.delete('/api/channels/' + id);
     };
 
+    channelFactory.setCurrentVideo = function(vid) {
+      channelFactory.currentVideo = vid;
+    };
+
+
     return channelFactory;
   }
 

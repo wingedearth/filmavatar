@@ -1,0 +1,24 @@
+<div class="container">
+<nav>
+  <div class="nav-wrapper">
+    <ul>
+      <li><a ui-sref="home">Home</a></li>
+      <li><a ui-sref="channel">Back to Channel Page</a></li>
+
+      <!-- buttons for logged-in users: -->
+      <div ng-show="isLoggedIn()">
+      <!-- <li><a ui-sref="addvideo">Add Video</a></li> -->
+      </div>
+
+    </ul>
+  </div>
+  </nav>
+
+  <ul id="videos" class="collection with-header">
+    <li class="collection-header"><h4>Videos in {{chan.name}}</h4></li>
+    <li class="collection-item" ng-repeat="video in videos">
+      <p class="waves-effect" ng-click=""> {{video.title}}</p>
+    </li>
+  </ul>
+  <div >
+</div>

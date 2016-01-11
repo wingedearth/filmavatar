@@ -11,6 +11,7 @@
 
     $scope.chan          = channelDataService.currentChannel;
     $scope.deleteChannel = deleteChannel;
+    $scope.videos        = $scope.chan.videos;
 
 
     function deleteChannel(id) {

@@ -14,13 +14,20 @@
 
 
     function deleteChannel(id) {
-      // $http.delete('/api/channels/' + id)
       channelDataService.delete($scope.chan._id)
       .then(function(response) {
         console.log(response);
       }, function(errRes) {
         console.error('There was an error deleting this channel!', errRes);
       }).then($state.go('channeldeleted'));
+    }
+
+    function getVideos() {
+      $http.get('/api/channels' + $scope.chan._id + '/videos').then(function(response) {
+        $scope.videos = response.data;
+      }, function(errRes) {
+        console.error('Error getting videos!', errRes);
+      });
     }
   }
 

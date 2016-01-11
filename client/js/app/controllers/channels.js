@@ -11,9 +11,7 @@
 
     getChannels();
 
-    // $scope.channels       = channelDataService.allChannels;
     $scope.getChannel     = getChannel;
-    $scope.deleteChannel  = deleteChannel;
     $scope.createChannel  = createChannel;
     $scope.isLoggedIn     = authService.isLoggedIn;
 
@@ -35,20 +33,9 @@
         .then(function(resp) {
           console.log(resp);
           $log.log(resp);
-          // $scope.channels = response;
-          // channelDataService.allChannels =
           $scope.channelData = {}; // clear channelData for subsequent use
         })
         .then($state.go('newchannelcreated'));
     }
-
-    function deleteChannel(id) {
-      $http.delete('/api/channels/' + id).then(function(response) {
-        console.log(response);
-      }, function(errRes) {
-        console.error('There was an error deleting this channel!', errRes);
-      }).then($state.go('channels'));
-    }
-
   }
 })();

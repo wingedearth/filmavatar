@@ -14,6 +14,7 @@
   "author": "Andrew A. Anissi",
   "license": "ISC",
   "dependencies": {
+    "angular-sanitize": "^1.4.8",
     "body-parser": "^1.14.2",
     "cookie-parser": "^1.4.0",
     "debug": "^2.2.0",
@@ -32,6 +33,14 @@
     "path": "^0.12.7",
     "request": "^2.67.0",
     "serve-favicon": "^2.3.0",
-    "session": "^0.1.0"
+    "session": "^0.1.0",
+    "videogular": "^1.4.0",
+    "videogular-angulartics": "^1.4.0",
+    "videogular-buffering": "^1.4.0",
+    "videogular-controls": "^1.4.0",
+    "videogular-dash": "^1.4.0",
+    "videogular-ima-ads": "^1.4.0",
+    "videogular-overlay-play": "^1.4.0",
+    "videogular-poster": "^1.4.0"
   }
 }

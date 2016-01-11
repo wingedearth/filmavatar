@@ -1,0 +1,24 @@
+{
+  "name": "filmavatar",
+  "description": "A web application platform for creating and sharing webTV channels.",
+  "main": "",
+  "authors": [
+    "Andrew A. Anissi"
+  ],
+  "license": "ISC",
+  "homepage": "https://github.com/wingedearth/filmavatar",
+  "moduleType": [],
+  "private": true,
+  "ignore": [
+    "**/.*",
+    "node_modules",
+    "bower_components",
+    "test",
+    "tests"
+  ],
+  "dependencies": {
+    "angular-sanitize": "~1.4.8",
+    "ngmedia": "~0.0.1",
+    "ng-media": "*"
+  }
+}

@@ -1,1 +1,21 @@
-<!-- To Do: create form for adding a video to a channel -->
+<div class="container">
+  <h4>New Video</h4>
+  <br>
+  <form ng-submit="addVideo()">
+    <div class="row">
+      <label for="inputTitle" class="left-jus col-md-offset-3">Video Title</label>
+      <div class="form-group col-md-6 col-md-offset-3">
+        <input type="text" id="inputName" class="form-control" placeholder="Title of Video..." ng-model="videoData.title" required />
+      </div>
+    </div>
+    <div class="row">
+      <label for="inputUrl" class="left-jus col-md-offset-3">Link Url</label>
+      <div class="form-group col-md-6 col-md-offset-3">
+        <input type="text" id="inputUrl" class="form-control" ng-model="videoData.url" required />
+      </div>
+    </div>
+
+    <button class="btn btn-success submit-login-button" type="submit">Submit!</button>
+  </form>
+
+</div>

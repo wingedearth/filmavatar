@@ -14,25 +14,9 @@
   <p>{{chan.name}}</p>
   <p><i>Your video will begin once it loads...</i></p>
 
-<!--   <div data-html5-video="{{currentVideoUrl}}" controls="true">
-  <p class="bordered-text">
-    HTML, including custom video controls, can be overlayed easily over the
-    video frame.
-  </p>
-</div> -->
-
   <div id="player">
   <video id="myVideo" ng-src="{{currentVideoUrl}}" controls width="600px" autoplay="true">
   </video>
-  <!-- <div id="videoControls">
-    <button id="playpausebtn">pause</button>
-    <input id="seekslider" type="range" min="0" max="100" value="0" step="1">
-    <span id="currentTimeText">00:00</span> /
-    <span id="durationTimeText"></span>&nbsp;&nbsp;&nbsp;&nbsp;
-    <button id="mutebtn">mute</button>
-    <input id="volumeslider" type="range" min="0" max="100" value="100" step="1">
-    <button id="fullscreenbtn">[&nbsp;&nbsp;&nbsp;]</button>
-  </div> -->
 
   </div> <!-- player -->
 

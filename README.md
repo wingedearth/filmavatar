@@ -1,5 +1,9 @@
 #FILM AVATAR
 
+####Links:
+- Deployed: https://sheltered-thicket-4732.herokuapp.com
+- Github: https://github.com/wingedearth/filmavatar
+
 ###Field of the Application
 With the replacement of free over-the-air broadcast television by 
 subscription-based over-the-top (OTT) content (e.g. via Hulu,

@@ -8,7 +8,7 @@
       <!-- <li><a>Edit Channel</a></li> -->
       <li ng-click="deleteChannel()"><a>Delete Channel</a></li>
       <li><a ui-sref="videos">See Videos In This Channel</a></li>
-      <li><a ui-sref="newvideo">Add New Video</a></li>
+      <div ng-show="isLoggedIn()"><li><a ui-sref="newvideo">Add New Video</a></li></div>
     </ul>
   </div>
   </nav>

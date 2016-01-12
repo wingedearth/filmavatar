@@ -35,7 +35,6 @@ function loadChannel(req, res, next) {
 *    Create Channel
 *******************************/
 var channelCreate     = function(req, res) {
-  console.log("req.body: ", req.body);
   var channel         = new Channel();
   channel.name        = req.body.name;
   // channel.imageUrl    = req.body.imageUrl;
@@ -52,20 +51,6 @@ var channelCreate     = function(req, res) {
     else {
       console.log("nice job! you got this far.");
     }
-
-    // res.json("Your channel has been created!");
-
-    // newMyChannel              = new MyChannel();
-    // newMyChannel.name         = req.body.name;
-    // newMyChannel.isCurator    = true;
-
-    // User.findById(req.user._id, function(err, user) {
-    //   user.myChannels.push({newMyChannel});
-    //   // user.save(function(err, savedUser) {
-    //   //   res.json("Your channel has been created!"); //// return the channel
-    //   // });
-    //   user.save();
-    // });
   });
 };
 

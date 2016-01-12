@@ -98,7 +98,7 @@ module.exports = function(app) {
                                       UsersCtrl.loadAuthUser,
                                       ChannelsCtrl.loadChannel,
                                       VideosCtrl.addVideo);
-  router.delete('/channels/:id/videos',
+  router.put('/videos/:id',
                                       UsersCtrl.tokenVerify,
                                       UsersCtrl.loadAuthUser,
                                       ChannelsCtrl.loadChannel,

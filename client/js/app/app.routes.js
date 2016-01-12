@@ -62,6 +62,11 @@
         templateUrl: "templates/newvideoadded.html",
         controller: "ChannelController"
       })
+      .state("videodeleted", {
+        url: "/channel/videodeleted",
+        templateUrl: "templates/videodeleted.html",
+        controller: "ChannelController"
+      })
       .state("videos", {
         url: "/videos",
         templateUrl: "templates/videos.html",

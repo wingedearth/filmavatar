@@ -5,9 +5,9 @@
     .module("app")
     .controller("ChannelController", ChannelController);
 
-  ChannelController.$inject = ["$state", "$scope", "$log", "$http", "channelDataService", "$sce",];
+  ChannelController.$inject = ["$state", "$scope", "$log", "$http", "channelDataService", "$sce", "authService"];
 
-  function ChannelController($state, $scope, $log, $http, channelDataService, $sce) {
+  function ChannelController($state, $scope, $log, $http, channelDataService, $sce, authService) {
 
     // getChannel(channelDataService.currentChannel._id);
 
@@ -18,6 +18,7 @@
     $scope.addVideo      = addVideo;
     $scope.getChannel    = getChannel;
     $scope.deleteVideo   = deleteVideo;
+    $scope.isLoggedIn    = authService.isLoggedIn;
 
     function deleteChannel(id) {
       channelDataService.delete($scope.chan._id)
@@ -29,7 +30,7 @@
     }
 
     function getChannel(id) {
-      channelDataService.get(id);
+      channelDataService.refreshChannel(id);
     }
 
     function getVideos() {
@@ -49,7 +50,6 @@
       $scope.message = ''; // clear pre-existing message
       channelDataService.newVideo($scope.chan, {title: $scope.videoData.title, url: $sce.trustAsResourceUrl($scope.videoData.url) } )
         .then(function(resp) {
-          console.log(resp);
           $log.log(resp);
           $scope.videoData = {}; // clear videoData for subsequent use
           getChannel(channelDataService.currentChannel._id);
@@ -57,8 +57,15 @@
         .then($state.go('newvideoadded'));
     }
 
-    function deleteVideo() {
-
+    function deleteVideo(vid) {
+      console.log("$scope.chan: ", $scope.chan);
+      console.log("vid.title: ", vid.title);
+      channelDataService.deleteVideo($scope.chan, {"title": vid.title} )
+        .then(function(resp) {
+          $log.log(resp);
+          getChannel(channelDataService.currentChannel._id);
+          $state.go('videodeleted');
+        });
     }
   }
 

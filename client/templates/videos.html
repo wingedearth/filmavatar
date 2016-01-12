@@ -15,9 +15,16 @@
   </nav>
 
   <ul id="videos" class="collection with-header">
-    <li class="collection-header"><h4>Videos in {{chan.name}}</h4></li>
+    <li class="collection-header">
+      <h4>Videos in {{chan.name}}</h4>
+      <p>Click on a video title to view.</p>
+      <p><span class="red-text">X</span>&nbsp;= delete video</p>
+    </li>
     <li class="collection-item" ng-repeat="video in videos">
-      <p class="waves-effect" ng-click="getVideo(video)">{{video.title}}</p>
+      <p>
+      <span ng-show="isLoggedIn()" class="waves-effect red-text" ng-click="deleteVideo(video)">X
+      &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span>
+      <span class="waves-effect" ng-click="getVideo(video)">{{video.title}}</span></p>
     </li>
   </ul>
   <div >

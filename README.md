@@ -98,9 +98,13 @@ database of videos for each station.
 |----------------------|-----------|
 | get('/api/channels/:id/videos') 		| get all videos on a channel |
 | post('/api/channels/:id/videos')		| add a new video |
-| delete('/api/channels/:id/videos') 	| remove a video |
+| put ('/api/videos/:id') 	| delete a video** |
 | get('/api/videos/:id/:vidId')			| get a particular video
 
+** The delete video route is set up as a PUT route. This helps to send
+a req.body with a title object. The :id in this route refers to the
+channel's id, not the video's id. I know, it can get confusing, but
+it works so I decided to leave it alone for now.
 
 
 ### Data Models

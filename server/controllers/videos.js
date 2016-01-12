@@ -6,7 +6,6 @@ var _         = require('lodash'),
 
 
 function loadVideoIndex(req, res, next) {
-  console.log("req.channel2: ", req.channel);
   req.indx = findIndx(req.channel.videos, req.body.title);
   next();
 }
@@ -52,16 +51,15 @@ function addVideo(req, res) {
 ***************************************/
 
 function deleteVideo(req, res) {
-  if ((req.body.title) && (req.curator==true)) {
+
+  if ((req.body.title) && ((req.user.isAdmin==true) || (req.curator))) {
     var index = _.findIndex(req.channel.videos, function(video) {
       return video.title == req.body.title;
     });
-    console.log("index: ", index);
 
     Channel.findById(req.params.id, function(err, channel) {
       if (err) res.send("ERROR: ", err); // report errors
-      channel.videos.splice(index, 1);
-      // channel.videos.splice(req.indx, 1); // remove video from array
+      channel.videos.splice(index, 1); // remove video from array
       channel.save(function(err) {
         if (err) res.send(err);
         var message = "Video Deleted: " + req.body.title;

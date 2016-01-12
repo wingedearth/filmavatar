@@ -161,7 +161,7 @@ function loginUser(req, res, next) {
 var tokenVerify = function(req, res, next) {
   console.log('Somebody just accessed the Film Avatar API!');
   var token = req.body.token || req.query.token || req.headers['x-access-token'];
-  console.log("token: ", token);
+  // console.log("token: ", token);
   if (token) { // check header for token, and decode token
     token1 = token.split(" ")[1];
     if (token1) { token = token1 };

@@ -15,9 +15,9 @@
   "author": "Andrew A. Anissi",
   "license": "ISC",
   "dependencies": {
-    "bower": "0.6.x",
     "angular-sanitize": "^1.4.8",
     "body-parser": "^1.14.2",
+    "bower": "^0.6.8",
     "cookie-parser": "^1.4.0",
     "debug": "^2.2.0",
     "dotenv": "^1.2.0",

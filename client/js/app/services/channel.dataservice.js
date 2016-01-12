@@ -27,8 +27,7 @@
     };
 
     // POST (create) a new channel
-    // channel Data is an object that includes the following keys:
-    // name, imageUrl, description (all as Strings)
+    // channelData is an object that name, imageUrl, and description
     channelFactory.create = function(channelData) {
       return $http.post('/api/channels/', channelData);
     };
@@ -39,6 +38,12 @@
 
     channelFactory.setCurrentVideo = function(vid) {
       channelFactory.currentVideo = vid;
+    };
+
+    // POST a new video to the current channel
+    // videoData is an object that includes title and url
+    channelFactory.newVideo = function(channel, videoData) {
+      return $http.post('api/channels/' + channel._id + '/videos', videoData);
     };
 
 

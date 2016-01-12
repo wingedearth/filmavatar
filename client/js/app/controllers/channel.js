@@ -48,7 +48,8 @@
 
     function addVideo() {
       $scope.message = ''; // clear pre-existing message
-      channelDataService.newVideo($scope.chan, {title: $scope.videoData.title, url: $sce.trustAsResourceUrl($scope.videoData.url) } )
+      // channelDataService.newVideo($scope.chan, {title: $scope.videoData.title, url: $sce.trustAsResourceUrl($scope.videoData.url) } )
+      channelDataService.newVideo($scope.chan, {title: $scope.videoData.title, url: $scope.videoData.url } )
         .then(function(resp) {
           $log.log(resp);
           $scope.videoData = {}; // clear videoData for subsequent use

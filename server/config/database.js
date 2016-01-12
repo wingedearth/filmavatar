@@ -6,10 +6,10 @@ require ('../models/user');
 require('dotenv').load();
 
 // production version
-    // var dbURI = process.env.DATABASE_URL;
+    var dbURI = process.env.DATABASE_URL;
 
 // development version
-    var dbURI = 'mongodb://localhost/' + env.SAFE_TITLE;
+    // var dbURI = 'mongodb://localhost/' + env.SAFE_TITLE;
 
 // If using local MongoDB, make sure it's turned on.
 if (dbURI != process.env.DATABASE_URL) {

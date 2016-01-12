@@ -52,6 +52,16 @@
         templateUrl: "templates/channel.html",
         controller: "ChannelController"
       })
+      .state("newvideo", {
+        url: "/channel/addvideo",
+        templateUrl: "templates/newvideo.html",
+        controller: "ChannelController"
+      })
+      .state("newvideoadded", {
+        url: "/channel/newvideoadded",
+        templateUrl: "templates/newvideoadded",
+        controller: "ChannelController"
+      })
       .state("videos", {
         url: "/videos",
         templateUrl: "templates/videos.html",
